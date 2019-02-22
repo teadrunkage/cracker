@@ -38,14 +38,11 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+
 			<plugin>
       <groupId>com.spotify</groupId>
       <artifactId>docker-maven-plugin</artifactId>
-      <version>VERSION GOES HERE</version>
+      <version>1.2.0</version>
       <configuration>
         <imageName>example</imageName>
         <baseImage>java</baseImage>
