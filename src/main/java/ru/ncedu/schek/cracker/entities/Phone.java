@@ -21,7 +21,7 @@ public class Phone {
     @JoinColumn(name = "MODEL_ID", nullable = false)
     private Model model;
 
-    @OneToMany(mappedBy = "phones", cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "phone", cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<Picture> pictures;
 
     @Column(name = "PRICE")

@@ -25,7 +25,7 @@ public class Picture {
     private String color;
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "PHONES_ID", nullable = true)
+    @JoinColumn(name = "PHONE_ID", nullable = true)
     private Phone phone;
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
