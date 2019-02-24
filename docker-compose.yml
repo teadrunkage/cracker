@@ -1,0 +1,10 @@
+version: '2'
+services:
+  shop:
+    image: shop
+    ports:
+     - "53:53"
+  cracker:
+    image: cracker
+    ports:
+     - "8080:8080"
