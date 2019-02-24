@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-# cracker
-Cracker shop marketplace.
+
 =======
 # Cracker-shop marketplace.
 
