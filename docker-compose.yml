@@ -3,8 +3,8 @@ services:
   shop:
     image: shop
     ports:
-     - "53:53"
+     - "8080:8080"
   cracker:
     image: cracker
     ports:
-     - "8080:8080"
+     - "5030:5030"
