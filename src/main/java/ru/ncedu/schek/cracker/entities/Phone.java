@@ -5,9 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
 
-/**
- * Created by Admin on 24.02.2019.
- */
+
 @Data
 @Entity
 @Table(name = "PHONE")
@@ -52,4 +50,36 @@ public class Phone {
                 ", phoneId=" + phoneId +
                 '}';
     }
+	public Long getPhoneId() {
+		return phoneId;
+	}
+	public void setPhoneId(Long phoneId) {
+		this.phoneId = phoneId;
+	}
+	public Model getModel() {
+		return model;
+	}
+	public void setModel(Model model) {
+		this.model = model;
+	}
+	public List<Picture> getPictures() {
+		return pictures;
+	}
+	public void setPictures(List<Picture> pictures) {
+		this.pictures = pictures;
+	}
+	public long getPrice() {
+		return price;
+	}
+	public void setPrice(long price) {
+		this.price = price;
+	}
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
+	}
+    
+    
 }

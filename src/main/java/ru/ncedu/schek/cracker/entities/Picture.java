@@ -1,15 +1,8 @@
 package ru.ncedu.schek.cracker.entities;
 
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 
-/**
- * Created by Admin on 24.02.2019.
- */
-@Getter
-@Setter
 @Entity
 @Table(name = "PICTURE")
 public class Picture {
@@ -52,4 +45,54 @@ public class Picture {
 
     public Picture() {
     }
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public Phone getPhone() {
+		return phone;
+	}
+
+	public void setPhone(Phone phone) {
+		this.phone = phone;
+	}
+
+	public Model getModel() {
+		return model;
+	}
+
+	public void setModel(Model model) {
+		this.model = model;
+	}
+
+	public byte[] getBytes() {
+		return bytes;
+	}
+
+	public void setBytes(byte[] bytes) {
+		this.bytes = bytes;
+	}
+    
+    
 }
