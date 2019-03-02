@@ -1,6 +1,10 @@
 version: '2'
 services:
+  shop:
+    image: shop
+    ports:
+     - "8080:8080"
   cracker:
     image: cracker
     ports:
-     - "8080:8080"
+     - "5030:5030"
