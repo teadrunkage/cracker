@@ -1,11 +1,19 @@
 package ru.ncedu.schek.cracker.entities;
 
+<<<<<<< HEAD
+=======
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
+
+>>>>>>> ffca83e0ab6ec585be839eecfced318753874092
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
 
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name= "MODEL")
 public class Model {
     @Id
