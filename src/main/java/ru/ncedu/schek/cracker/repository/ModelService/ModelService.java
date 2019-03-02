@@ -9,7 +9,17 @@ import java.util.List;
  */
 public interface ModelService {
     List<Model> listAllModels();
-    Model createModel();
-    Model updateModel();
+    Model getModel();
 
+    Model findById(long id);
+
+    boolean isModelExist(Model model);
+
+    Model findByName(String name);
+
+    void saveModel(Model model);
+
+    void updateModel(Model currentModel);
+
+    void deleteModelById(long id);
 }

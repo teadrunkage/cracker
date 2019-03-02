@@ -1,0 +1,6 @@
+version: '2'
+services:
+  cracker:
+    image: cracker
+    ports:
+     - "8080:8080"
