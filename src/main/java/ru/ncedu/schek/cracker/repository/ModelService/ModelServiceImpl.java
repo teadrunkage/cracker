@@ -35,7 +35,7 @@ public class ModelServiceImpl implements ModelService{
         // HttpHeaders
         HttpHeaders headers = new HttpHeaders();
         // Authentication
-        String auth = USER_NAME + ":" + PASSWORD;
+   /*     String auth = USER_NAME + ":" + PASSWORD;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
         String authHeader = "Basic " + new String(encodedAuth);
         headers.set("Authorization", authHeader);
@@ -43,7 +43,7 @@ public class ModelServiceImpl implements ModelService{
         headers.setAccept(Arrays.asList(new MediaType[] { MediaType.APPLICATION_JSON }));
         // Request to return JSON format
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("my_other_key", "my_other_value");
+        headers.set("my_other_key", "my_other_value"); */
         //get result as model
         HttpEntity<List<Model>> entity = new HttpEntity<List<Model>>(headers);
         RestTemplate restTemplate = new RestTemplate();
@@ -73,15 +73,15 @@ public class ModelServiceImpl implements ModelService{
         // HttpHeaders
         HttpHeaders headers = new HttpHeaders();
         // Authentication
-        String auth = USER_NAME + ":" + PASSWORD;
+   /*     String auth = USER_NAME + ":" + PASSWORD;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
         String authHeader = "Basic " + new String(encodedAuth);
-        headers.set("Authorization", authHeader);
+        headers.set("Authorization", authHeader); 
 
         headers.setAccept(Arrays.asList(new MediaType[] { MediaType.APPLICATION_JSON }));
         // Request to return JSON format
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("my_other_key", "my_other_value");
+        headers.set("my_other_key", "my_other_value"); */
         //get result as model
         HttpEntity<Model> entity = new HttpEntity<Model>(headers);
         RestTemplate restTemplate = new RestTemplate();
