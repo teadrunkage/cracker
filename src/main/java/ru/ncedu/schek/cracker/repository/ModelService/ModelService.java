@@ -9,6 +9,9 @@ import java.util.List;
  */
 public interface ModelService {
     List<Model> listAllModels();
+    
+    void saveAllModels();
+    
     Model getModel();
 
     Model findById(long id);
