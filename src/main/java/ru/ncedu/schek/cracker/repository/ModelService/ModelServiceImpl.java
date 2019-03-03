@@ -21,52 +21,43 @@ public class ModelServiceImpl implements ModelService{
     @Autowired
     private ModelRepository modelRepository;
 
-    static final String URL_MODEL = "http://localhost:8080/models/";
+    static final String URL_MODEL = "http://localhost:8080/models";
+    static final String URL_MODEL_XML = "http://localhost:8080/models.xml";
     static final String URL_MODEL_ID = "http://localhost:8080/model/{id}";
 
     public static final String USER_NAME = "admin";
-    public static final String PASSWORD = "admin123A";
+    public static final String PASSWORD = "admin";
 
     //ответ на запрос получения списка моделей у Service
-    //возможны ошибки из-за List<Model> -> Model[] и наоборот
-    //или из-за верификации пользователя
     @Override
     public List<Model> listAllModels() {
-        // HttpHeaders
-        HttpHeaders headers = new HttpHeaders();
+     //Авторизация не работает, нужно открыть доступ "/models" для всех
+    //Или переписать авторизацию!
+    	HttpHeaders headers = new HttpHeaders();
         // Authentication
-   /*     String auth = USER_NAME + ":" + PASSWORD;
+        String auth = USER_NAME + ":" + PASSWORD;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
         String authHeader = "Basic " + new String(encodedAuth);
-        headers.set("Authorization", authHeader);
-
-        headers.setAccept(Arrays.asList(new MediaType[] { MediaType.APPLICATION_JSON }));
-        // Request to return JSON format
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("my_other_key", "my_other_value"); */
-        //get result as model
-        HttpEntity<List<Model>> entity = new HttpEntity<List<Model>>(headers);
-        RestTemplate restTemplate = new RestTemplate();
-
-        //запрос на получение списка моделей
-        ResponseEntity<Model[]> response = restTemplate.exchange(URL_MODEL,
-                HttpMethod.GET, entity, Model[].class);
-        HttpStatus statusCode = response.getStatusCode();
-        System.out.println("Response Satus Code: " + statusCode);
-        // Status Code: 200
-        if (statusCode == HttpStatus.OK) {
-            // Response Body Data
-            Model[] list = response.getBody();
-            if (list != null) {
-                for (Model e : list) {
-                    System.out.println("Model: " + e.getModelName() + " - " + e.getModelId());
-                }
-                return Arrays.asList(list);
+        headers.set("Authorization", authHeader);  
+    	
+    	RestTemplate restTemplate = new RestTemplate();
+         // Для отладки
+    /*     String result = restTemplate.getForObject(URL_MODEL, String.class);
+         System.out.println(result); */
+    	 
+        // Send request with GET method.
+        Model[] list = restTemplate.getForObject(URL_MODEL, Model[].class);
+ 
+        if (list != null) {
+            for (Model e : list) {
+                System.out.println("Employee: " + e.getModelName() + " - " + e.getModelId());
             }
-        }
-        return null;
+            return Arrays.asList(list);
+        } else return null;
     }
 
+    
+    //НЕ ПРОВЕРЕНО - НЕ ИСПОЛЬЗУЕТСЯ
     //запрос на получение  модели у Service
     @Override
     public Model getModel() {
@@ -76,12 +67,12 @@ public class ModelServiceImpl implements ModelService{
    /*     String auth = USER_NAME + ":" + PASSWORD;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
         String authHeader = "Basic " + new String(encodedAuth);
-        headers.set("Authorization", authHeader); 
+        headers.set("Authorization", authHeader);  */
 
         headers.setAccept(Arrays.asList(new MediaType[] { MediaType.APPLICATION_JSON }));
         // Request to return JSON format
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("my_other_key", "my_other_value"); */
+        headers.set("my_other_key", "my_other_value"); 
         //get result as model
         HttpEntity<Model> entity = new HttpEntity<Model>(headers);
         RestTemplate restTemplate = new RestTemplate();

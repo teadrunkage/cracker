@@ -46,8 +46,8 @@
 							<th>price_max</th>
 						</tr>
 						<tr th:each="model : ${models}">
-							<td th:utext="${model.getId()}">...</td>
-							<td th:utext="${model.getModelname()}">...</td>
+							<td th:utext="${model.getModelId()}">...</td>
+							<td th:utext="${model.getModelName()}">...</td>
 							<td th:utext="${model.getPriceMin()}">...</td>
 							<td th:utext="${model.getPriceMax()}">...</td>
 						</tr>
