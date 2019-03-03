@@ -30,7 +30,7 @@ public class Phone {
     @Column(name = "COLOR")
     private String color;
     
-    @Column(name = "LINK", nullable=false)
+    @Column(name = "LINK", nullable=true)
     private String link;
 
     public Phone( Model model, long price, String color) {

@@ -18,7 +18,7 @@ public class MainController {
 	
 	@RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
 	public String index(org.springframework.ui.Model model) {
-		modelService.saveAllModels();
+	//	modelService.saveAllModels();
 		List <Model> models = modelService.listAllModels();
 		model.addAttribute("models", models);
 		return "index";
