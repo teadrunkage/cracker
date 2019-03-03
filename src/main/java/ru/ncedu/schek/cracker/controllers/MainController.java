@@ -1,6 +1,5 @@
 package ru.ncedu.schek.cracker.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +18,8 @@ public class MainController {
 	
 	@RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
 	public String index(org.springframework.ui.Model model) {
-		List<Model> models = modelService.listAllModels();
-	//	Model onemodel= modelService.getModel();
-	//	List<Model> models = new ArrayList<>();
-	//	models.add(onemodel);
+		modelService.saveAllModels();
+		List <Model> models = modelService.listAllModels();
 		model.addAttribute("models", models);
 		return "index";
 	}

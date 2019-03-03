@@ -28,7 +28,8 @@
 					<ul class="pure-menu-list">
 						<li class="pure-menu-item"><a href="#" class="pure-menu-link">Категории</a></li>
 						<li class="pure-menu-item"><a href="#" class="pure-menu-link">Магазин</a></li>
-						<li class="pure-menu-item"><a href="#" class="pure-menu-link">Личный кабинет</a></li>
+						<li class="pure-menu-item"><a href="#" class="pure-menu-link">Личный
+								кабинет</a></li>
 					</ul>
 
 				</div>
@@ -37,25 +38,9 @@
 		</div>
 		<div class="featured">
 			<div>
-					<h2>Магазин</h2>
-					<table border="0">
-						<tr>
-							<th>id</th>
-							<th>model_name</th>
-							<th>price_min</th>
-							<th>price_max</th>
-							<th>phones</th>
-						</tr>
-						<tr th:each="model : ${models}">
-							<td th:utext="${model.getModelId()}">...</td>
-							<td th:utext="${model.getModelName()}">...</td>
-							<td th:utext="${model.getPriceMin()}">...</td>
-							<td th:utext="${model.getPriceMax()}">...</td>
-							<td><a th:href="@{/modelpage(modelId=${model.getModelId()})}"
-								class="btn btn-danger" th:text="${model.getNumberOfPhones()}">...</a></td>
-						</tr>
-					</table>
-				</div>
+				<h2 th:utext="${model.getModelName()}">!!!</h2>
+
+			</div>
 		</div>
 		<div class="aside">
 			<img th:src="@{/img/stock_img1.jpg}" />

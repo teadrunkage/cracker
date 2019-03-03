@@ -18,7 +18,7 @@ public class Phone {
     private Long phoneId;
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "MODEL_ID", nullable = false)
+    @JoinColumn(name = "MODEL_ID")
     private Model model;
 
     @OneToMany(mappedBy = "phone", cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)

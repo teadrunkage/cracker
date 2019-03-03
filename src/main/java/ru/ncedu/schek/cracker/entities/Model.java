@@ -49,6 +49,11 @@ public class Model {
                 ", modelId=" + modelId +
                 '}';
     }
+    
+    public int getNumberOfPhones() {
+    	return this.getPhones().size();
+    }
+    
 	public Long getModelId() {
 		return modelId;
 	}
