@@ -19,10 +19,9 @@ public class ModelPageController {
 	
 	@GetMapping
     public String modelpage(org.springframework.ui.Model model, @RequestParam(name="modelId")long modelId) {		
-		Model mymodel = modelRepository.getOne((long) 1);
-		System.out.println("!!!!!!!!");
-		System.out.println(modelId);
-		System.out.println(mymodel.toString());
+		Model mymodel = modelRepository.getOne(modelId);
+		System.out.println("!!!!!!!");
+		System.out.println(modelRepository.count());
 		model.addAttribute("model", mymodel);
         return "modelpage";
     }

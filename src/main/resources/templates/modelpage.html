@@ -39,7 +39,21 @@
 		<div class="featured">
 			<div>
 				<h2 th:utext="${model.getModelName()}">!!!</h2>
-
+				<h4>Описание:</h4>
+				<h4>Список доступных телефонов:</h4>
+				<table border="0">
+					<tr>
+						<th>phone_id</th>
+						<th>color</th>
+						<th>price</th>
+					</tr>
+					<tr th:each="phone : ${model.getPhones()}">
+						<td th:utext="${phone.getPhoneId()}">...</td>
+						<td th:utext="${phone.getColor()}">...</td>
+						<td th:utext="${phone.getPrice()}">...</td>
+					</tr>
+				</table>
+				<h4>Комментарии:</h4>
 			</div>
 		</div>
 		<div class="aside">
