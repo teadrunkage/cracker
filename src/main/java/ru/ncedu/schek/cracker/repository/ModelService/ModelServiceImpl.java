@@ -25,9 +25,9 @@ public class ModelServiceImpl implements ModelService {
 	@Autowired
 	private PhoneRepository phoneRepository;
 
-	static final String URL_MODEL = "http://localhost:8080/models";
-	static final String URL_MODEL_XML = "http://localhost:8080/models.xml";
-	static final String URL_MODEL_ID = "http://localhost:8080/model/{id}";
+	static final String URL_MODEL = "http://localhost:8081/models";
+	static final String URL_MODEL_XML = "http://localhost:8081/models.xml";
+	static final String URL_MODEL_ID = "http://localhost:8081/model/{id}";
 
 	public static final String USER_NAME = "admin";
 	public static final String PASSWORD = "admin";
