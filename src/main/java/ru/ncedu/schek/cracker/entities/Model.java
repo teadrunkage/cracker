@@ -2,10 +2,10 @@ package ru.ncedu.schek.cracker.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
-
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)

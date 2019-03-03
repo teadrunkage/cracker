@@ -12,8 +12,10 @@ import ru.ncedu.schek.cracker.repository.PhoneRepository;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Admin on 24.02.2019.
@@ -25,9 +27,10 @@ public class ModelServiceImpl implements ModelService {
 	@Autowired
 	private PhoneRepository phoneRepository;
 
-	static final String URL_MODEL = "http://localhost:8081/models";
-	static final String URL_MODEL_XML = "http://localhost:8081/models.xml";
-	static final String URL_MODEL_ID = "http://localhost:8081/model/{id}";
+	static final String URL_MODEL0 = "http://localhost:8080/models";
+	static final String URL_MODEL1 = "http://localhost:8080/models";
+	static final String URL_MODEL_ID = "http://localhost:8080/model/{id}";
+
 
 	public static final String USER_NAME = "admin";
 	public static final String PASSWORD = "admin";
@@ -36,7 +39,7 @@ public class ModelServiceImpl implements ModelService {
 	public List<Model> listAllModels() {
 		return modelRepository.findAll();
 	}
-	
+
 	// ответ на запрос получения списка моделей у Service
 	// Сохранение сущностей в репозитории
 	public void saveAllModels() {
@@ -55,15 +58,26 @@ public class ModelServiceImpl implements ModelService {
 		 * String result = restTemplate.getForObject(URL_MODEL, String.class);
 		 * System.out.println(result);
 		 */
-		Model[] list = restTemplate.getForObject(URL_MODEL, Model[].class);
+		Set<String> urlSet = new HashSet<String>();
+		urlSet.add(URL_MODEL0);
+		urlSet.add(URL_MODEL1);
+		for (String URL_MODEL : urlSet) {
+			try {
+				Model[] list = restTemplate.getForObject(URL_MODEL, Model[].class);
 
-		if (list != null) {
-			for (Model e : list) {
-				modelRepository.save(e);
-				for (Phone p : e.getPhones()) {
-					p.setModel(e);
-					phoneRepository.save(p);
+				if (list != null) {
+					for (Model e : list) {
+						modelRepository.save(e);
+						for (Phone p : e.getPhones()) {
+							p.setModel(e);
+							phoneRepository.save(p);
+						}
+					}
 				}
+			} catch (Exception e) {
+				System.out.println("I am falling!");
+				System.out.println(e.getMessage());
+				e.printStackTrace();
 			}
 		}
 	}
