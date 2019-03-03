@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.ncedu.schek.cracker.entities.Model;
 import ru.ncedu.schek.cracker.repository.ModelRepository;
 
-
-
 @Controller
 @RequestMapping("/modelpage")
 public class ModelPageController {

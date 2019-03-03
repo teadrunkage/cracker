@@ -46,11 +46,14 @@
 						<th>phone_id</th>
 						<th>color</th>
 						<th>price</th>
+						<th>link</th>
 					</tr>
 					<tr th:each="phone : ${model.getPhones()}">
 						<td th:utext="${phone.getPhoneId()}">...</td>
 						<td th:utext="${phone.getColor()}">...</td>
 						<td th:utext="${phone.getPrice()}">...</td>
+						<td><a th:href="${phone.getLink()}"
+								class="btn btn-danger">Go to shop</a></td>
 					</tr>
 				</table>
 				<h4>Комментарии:</h4>

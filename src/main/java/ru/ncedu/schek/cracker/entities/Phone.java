@@ -29,6 +29,9 @@ public class Phone {
 
     @Column(name = "COLOR")
     private String color;
+    
+    @Column(name = "LINK", nullable=false)
+    private String link;
 
     public Phone( Model model, long price, String color) {
         this.model = model;
@@ -81,6 +84,12 @@ public class Phone {
 	}
 	public void setColor(String color) {
 		this.color = color;
+	}
+	public String getLink() {
+		return link;
+	}
+	public void setLink(String link) {
+		this.link = link;
 	}
     
     
