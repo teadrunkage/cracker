@@ -20,6 +20,7 @@ public class ModelPageController {
 		Model mymodel = modelRepository.getOne(modelId);
 		System.out.println("!!!!!!!");
 		System.out.println(modelRepository.count());
+
 		model.addAttribute("model", mymodel);
         return "modelpage";
     }
