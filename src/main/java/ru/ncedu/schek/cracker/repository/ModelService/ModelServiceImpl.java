@@ -1,20 +1,14 @@
 package ru.ncedu.schek.cracker.repository.ModelService;
 
-import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 import ru.ncedu.schek.cracker.entities.Model;
 import ru.ncedu.schek.cracker.entities.Phone;
 import ru.ncedu.schek.cracker.repository.ModelRepository;
 import ru.ncedu.schek.cracker.repository.PhoneRepository;
 
-import java.nio.charset.Charset;
 import java.util.*;
 
 /**
@@ -28,11 +22,9 @@ public class ModelServiceImpl implements ModelService {
     private PhoneRepository phoneRepository;
 
     //изменил порты
-    static final String URL_MODEL0 = "http://192.168.99.100:8081/models";//Daria
-    static final String URL_MODEL1 = "http://192.168.99.100:8080/models";//Maximka
+    //static final String URL_MODEL0 = "http://localhost:8081/models";//Daria
+    static final String URL_MODEL1 = "http://localhost:8080/models";//Maxim
     static final String URL_MODEL_ID = "http://192.168.99.100:8080/model/{id}";
-
-
     public static final String USER_NAME = "admin";
     public static final String PASSWORD = "admin";
 
@@ -41,62 +33,21 @@ public class ModelServiceImpl implements ModelService {
         return modelRepository.findAll();
     }
 
-    /*
-    Нужно первым делом сравнивать добавляющиеся модели и телефоны с существующими,
-     чтобы не было повторений. И корректировать priceMin, priceMax
-    */
-    /*у каждой модели проходимся по телефонам и находим макс и мин цены среди них*/
-    public void comparisonOfModelsPrice(Model model) {
-        List<Long> list = new ArrayList<>();
-            for (Phone phone : model.getPhones()) {
-                list.add(phone.getPrice());
-            }
-            model.setPriceMax(Collections.max(list));
-            model.setPriceMin(Collections.min(list));
-    }
-
-    @RequestMapping(value = "/restart", method = RequestMethod.POST)
-    public ResponseEntity<Void> createUser(@RequestBody Model model, UriComponentsBuilder ucBuilder){
-        System.out.println("Creating model " + model.getModelName());
-
-        if (isModelExist(model)){
-            System.out.println("Model with name " + model.getModelName() + " already exist");
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-        }
-        saveModel(model);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/model/{id}").buildAndExpand(model.getModelId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-    }
-
-
-    // ответ на запрос получения списка моделей у Service
-    // Сохранение сущностей в репозитории
+    //отправляется запрос на получение моделей от магазинов
+    @Override
     public void saveAllModels() {
-        // Авторизация не работает, нужно открыть доступ "/models" для всех
-        // Или переписать авторизацию!
-        HttpHeaders headers = new HttpHeaders();
-        // Authentication
-        String auth = USER_NAME + ":" + PASSWORD;
-        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
-        String authHeader = "Basic " + new String(encodedAuth);
-        headers.set("Authorization", authHeader);
-
         RestTemplate restTemplate = new RestTemplate();
-        // Для отладки
-        /*
-         * String result = restTemplate.getForObject(URL_MODEL, String.class);
-		 * System.out.println(result);
-		 */
         Set<String> urlSet = new HashSet<String>();
-        urlSet.add(URL_MODEL0);
         urlSet.add(URL_MODEL1);
         for (String URL_MODEL : urlSet) {
             try {
                 Model[] list = restTemplate.getForObject(URL_MODEL, Model[].class);
                 if (list != null) {
                     for (Model e : list) {
+                        if (isModelExist(e)){
+                            System.out.println("Model with name " + e.getModelName() + " already exist"+ HttpStatus.CONFLICT.toString());
+                            break;
+                        }
                         comparisonOfModelsPrice(e);
                         modelRepository.save(e);
                         for (Phone p : e.getPhones()) {
@@ -104,7 +55,6 @@ public class ModelServiceImpl implements ModelService {
                             phoneRepository.save(p);
                         }
                     }
-                   //return Arrays.asList(list);
                 }
             } catch (Exception e) {
                 System.out.println("I am falling!");
@@ -112,45 +62,16 @@ public class ModelServiceImpl implements ModelService {
                 e.printStackTrace();
             }
         }
-        //return null;
     }
 
-    // НЕ ПРОВЕРЕНО - НЕ ИСПОЛЬЗУЕТСЯ
-    // запрос на получение модели у Service
     @Override
-    public Model getModel() {
-        // HttpHeaders
-        HttpHeaders headers = new HttpHeaders();
-        // Authentication
-		/*
-		 * String auth = USER_NAME + ":" + PASSWORD; byte[] encodedAuth =
-		 * Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII"))); String
-		 * authHeader = "Basic " + new String(encodedAuth); headers.set("Authorization",
-		 * authHeader);
-		 */
-
-        headers.setAccept(Arrays.asList(new MediaType[]{MediaType.APPLICATION_JSON}));
-        // Request to return JSON format
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("my_other_key", "my_other_value");
-        // get result as model
-        HttpEntity<Model> entity = new HttpEntity<Model>(headers);
-        RestTemplate restTemplate = new RestTemplate();
-
-        // запрос на получение списка моделей
-        ResponseEntity<Model> response = restTemplate.exchange(URL_MODEL_ID, HttpMethod.GET, entity, Model.class);
-        HttpStatus statusCode = response.getStatusCode();
-        System.out.println("Response Satus Code: " + statusCode);
-        // Status Code: 200
-        if (statusCode == HttpStatus.OK) {
-            // Response Body Data
-            Model model = response.getBody();
-            if (model != null) {
-                System.out.println("Model: " + model.getModelName() + " - " + model.getModelId());
-                return model;
-            }
+    public void comparisonOfModelsPrice(Model model) {
+        List<Long> list = new ArrayList<>();
+        for (Phone phone : model.getPhones()) {
+            list.add(phone.getPrice());
         }
-        return null;
+        model.setPriceMax(Collections.max(list));
+        model.setPriceMin(Collections.min(list));
     }
 
     @Override
