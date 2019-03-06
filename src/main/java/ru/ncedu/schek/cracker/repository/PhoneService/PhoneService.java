@@ -28,4 +28,6 @@ public interface PhoneService {
     void deleteAllPhones();
 
     Phone findById(long id);
+
+    void saveAllPhones();
 }

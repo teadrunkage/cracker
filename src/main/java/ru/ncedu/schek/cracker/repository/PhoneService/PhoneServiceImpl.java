@@ -9,9 +9,7 @@ import ru.ncedu.schek.cracker.entities.Phone;
 import ru.ncedu.schek.cracker.repository.PhoneRepository;
 
 import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Admin on 24.02.2019.
@@ -21,7 +19,7 @@ public class PhoneServiceImpl implements PhoneService {
     @Autowired
     private PhoneRepository phoneRepository;
 
-    static final String URL_PHONE = "http://localhost:8080/phones/";
+    static final String URL_PHONE = "http://localhost:8080/phones";
     static final String URL_PHONE_ID = "http://localhost:8080/phones/{id}";
 
     public static final String USER_NAME = "admin";
@@ -33,72 +31,57 @@ public class PhoneServiceImpl implements PhoneService {
         return phoneRepository.getById(id);
     }
 
-    //запрос на получение списка телефонов у Service
-    //Возможны ошибки из-за Phone[] -> List<Phone>
     @Override
     public List<Phone> listAllPhones() {
-        // HttpHeaders
-        HttpHeaders headers = new HttpHeaders();
-        // Authentication
-        String auth = USER_NAME + ":" + PASSWORD;
-        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
-        String authHeader = "Basic " + new String(encodedAuth);
-        headers.set("Authorization", authHeader);
-
-        headers.setAccept(Arrays.asList(new MediaType[]{MediaType.APPLICATION_JSON}));
-        // Request to return JSON format
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        //headers.set("my_other_key", "my_other_value");
-        //get result as list phones
-        HttpEntity<List<Phone>> entity = new HttpEntity<List<Phone>>(headers);
+        return phoneRepository.findAll();
+    }
+    @Override
+    public void saveAllPhones() {
         RestTemplate restTemplate = new RestTemplate();
-
-        //запрос на получение списка моделей
-        ResponseEntity<Phone[]> response = restTemplate.exchange(URL_PHONE,
-                HttpMethod.GET, entity, Phone[].class);
-        HttpStatus statusCode = response.getStatusCode();
-        System.out.println("Response Satus Code: " + statusCode);
-        // Status Code: 200
-        if (statusCode == HttpStatus.OK) {
-            // Response Body Data
-            Phone[] list = response.getBody();
-            if (list != null) {
-                for (Phone e : list) {
-                    System.out.println("Phone: " + e.getModel().getModelName() + " - " + e.getPhoneId());
+        Set<String> urlSet = new HashSet<String>();
+        urlSet.add(URL_PHONE);
+        //urlSet.add(URL_MODEL2);
+        for (String URL_MODEL : urlSet) {
+            try {
+                Phone[] list = restTemplate.getForObject(URL_PHONE, Phone[].class);
+                if (list != null) {
+                    for (Phone e : list) {
+                        if (isPhoneExist(e)){
+                            System.out.println("Phone with name " + e.getModel().getModelName() + " already exist"+ HttpStatus.CONFLICT.toString());
+                            break;
+                        }
+                       phoneRepository.save(e);
+                    }
                 }
-                return Arrays.asList(list);
+            } catch (Exception e) {
+                System.out.println("I am falling!");
+                System.out.println(e.getMessage());
+                e.printStackTrace();
             }
         }
-        return null;
     }
 
-    //запрос на получение телефона  у Service
     @Override
     public Phone getPhone() {
-        // HttpHeaders
         HttpHeaders headers = new HttpHeaders();
-        // Authentication
+
         String auth = USER_NAME + ":" + PASSWORD;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
         String authHeader = "Basic " + new String(encodedAuth);
         headers.set("Authorization", authHeader);
 
         headers.setAccept(Arrays.asList(new MediaType[]{MediaType.APPLICATION_JSON}));
-        // Request to return JSON format
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("my_other_key", "my_other_value");
-        //get result as model
+
         HttpEntity<Phone> entity = new HttpEntity<Phone>(headers);
+
         RestTemplate restTemplate = new RestTemplate();
 
-        //запрос на получение списка моделей
-        ResponseEntity<Phone> response = restTemplate.exchange(URL_PHONE_ID,
-                HttpMethod.GET, entity, Phone.class);
+        ResponseEntity<Phone> response = restTemplate.exchange(URL_PHONE_ID, HttpMethod.GET, entity, Phone.class);
         HttpStatus statusCode = response.getStatusCode();
         System.out.println("Response Satus Code: " + statusCode);
-        // Status Code: 200
         if (statusCode == HttpStatus.OK) {
-            // Response Body Data
             Phone phone = response.getBody();
             if (phone != null) {
                 System.out.println("Phone: " + phone.getModel().getModelName() + " - " + phone.getPhoneId());
@@ -107,12 +90,12 @@ public class PhoneServiceImpl implements PhoneService {
         }
         return null;
     }
-    //createPhone как и createModel главный магазин не будет запрашивать
 
     @Override
     public boolean isPhoneExist(Phone phone) {
         return findByName(phone.getModel().getModelName()) != null;
     }
+
     @Override
     public Phone findByName(String modelName) {
         for (Phone phone : phoneRepository.findAll()) {

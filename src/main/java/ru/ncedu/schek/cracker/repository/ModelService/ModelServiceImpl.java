@@ -39,6 +39,7 @@ public class ModelServiceImpl implements ModelService {
         RestTemplate restTemplate = new RestTemplate();
         Set<String> urlSet = new HashSet<String>();
         urlSet.add(URL_MODEL1);
+        //urlSet.add(URL_MODEL2);
         for (String URL_MODEL : urlSet) {
             try {
                 Model[] list = restTemplate.getForObject(URL_MODEL, Model[].class);
