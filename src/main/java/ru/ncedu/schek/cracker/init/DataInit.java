@@ -18,7 +18,5 @@ public class DataInit implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		modelService.saveAllModels();
-		//нужно получать /phones/id чтобы удалять
-		//phoneService.saveAllPhones();
 	}
 }

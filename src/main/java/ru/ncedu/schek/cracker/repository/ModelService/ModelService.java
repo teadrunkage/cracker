@@ -1,6 +1,7 @@
 package ru.ncedu.schek.cracker.repository.ModelService;
 
 import ru.ncedu.schek.cracker.entities.Model;
+import ru.ncedu.schek.cracker.entities.Phone;
 
 import java.util.List;
 
@@ -16,6 +17,8 @@ public interface ModelService {
 
 
     Model findById(long id);
+
+    Model findModelByPhone(Phone phone);
 
     boolean isModelExist(Model model);
 

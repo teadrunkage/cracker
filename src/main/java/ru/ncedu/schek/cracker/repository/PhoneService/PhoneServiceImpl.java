@@ -9,7 +9,9 @@ import ru.ncedu.schek.cracker.entities.Phone;
 import ru.ncedu.schek.cracker.repository.PhoneRepository;
 
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Admin on 24.02.2019.
@@ -35,36 +37,10 @@ public class PhoneServiceImpl implements PhoneService {
     public List<Phone> listAllPhones() {
         return phoneRepository.findAll();
     }
-    @Override
-    public void saveAllPhones() {
-        RestTemplate restTemplate = new RestTemplate();
-        Set<String> urlSet = new HashSet<String>();
-        urlSet.add(URL_PHONE);
-        //urlSet.add(URL_MODEL2);
-        for (String URL_MODEL : urlSet) {
-            try {
-                Phone[] list = restTemplate.getForObject(URL_PHONE, Phone[].class);
-                if (list != null) {
-                    for (Phone e : list) {
-                        if (isPhoneExist(e)){
-                            System.out.println("Phone with name " + e.getModel().getModelName() + " already exist"+ HttpStatus.CONFLICT.toString());
-                            break;
-                        }
-                       phoneRepository.save(e);
-                    }
-                }
-            } catch (Exception e) {
-                System.out.println("I am falling!");
-                System.out.println(e.getMessage());
-                e.printStackTrace();
-            }
-        }
-    }
 
     @Override
     public Phone getPhone() {
         HttpHeaders headers = new HttpHeaders();
-
         String auth = USER_NAME + ":" + PASSWORD;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
         String authHeader = "Basic " + new String(encodedAuth);
@@ -90,6 +66,7 @@ public class PhoneServiceImpl implements PhoneService {
         }
         return null;
     }
+
 
     @Override
     public boolean isPhoneExist(Phone phone) {
@@ -125,6 +102,11 @@ public class PhoneServiceImpl implements PhoneService {
                 iterator.remove();
             }
         }
+    }
+    @Override
+    public void deleteById(long id){
+        Phone phone= phoneRepository.getById(id);
+        phoneRepository.delete(phone);
     }
 
     @Override

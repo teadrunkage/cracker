@@ -24,9 +24,6 @@ public class ModelServiceImpl implements ModelService {
     //изменил порты
     //static final String URL_MODEL0 = "http://localhost:8081/models";//Daria
     static final String URL_MODEL1 = "http://localhost:8080/models";//Maxim
-    static final String URL_MODEL_ID = "http://192.168.99.100:8080/model/{id}";
-    public static final String USER_NAME = "admin";
-    public static final String PASSWORD = "admin";
 
     @Override
     public List<Model> listAllModels() {
@@ -83,6 +80,11 @@ public class ModelServiceImpl implements ModelService {
             }
         }
         return null;
+    }
+
+    @Override
+    public Model findModelByPhone(Phone phone){
+        return phone.getModel();
     }
 
     @Override

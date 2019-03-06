@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.ncedu.schek.cracker.entities.Model;
-import ru.ncedu.schek.cracker.entities.Phone;
 import ru.ncedu.schek.cracker.repository.ModelService.ModelService;
 import ru.ncedu.schek.cracker.repository.PhoneService.PhoneService;
 
@@ -21,7 +20,6 @@ public class MainController {
 	@RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
 	public String index(org.springframework.ui.Model model) {
 		List <Model> models = modelService.listAllModels();
-		List<Phone> phones= phoneService.listAllPhones();
 		model.addAttribute("models", models);
 		return "index";
 	}
