@@ -11,6 +11,8 @@ import ru.ncedu.schek.cracker.repository.ModelService.ModelService;
 import ru.ncedu.schek.cracker.repository.PhoneRepository;
 import ru.ncedu.schek.cracker.repository.PhoneService.PhoneService;
 
+import java.util.List;
+
 /**
  * Created by Admin on 06.03.2019.
  */
@@ -41,5 +43,25 @@ public class RestPhone {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+    }
+    //------------------- Update a Phone --------------------------------------------------------
+
+    @RequestMapping(value = "/phone/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Void> updatePhone(@PathVariable("id") long id, @RequestBody Phone phone)throws StackOverflowError{
+        System.out.println("Updating phone " + id);
+        Phone currentPhone = phoneService.findById(id);
+        List<Model> model=modelRepository.findAll();
+
+        if (currentPhone == null){
+            System.out.println("Phone with id " + id + " not found");
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        }
+        //modelService.comparisonOfModelsPrice(model);
+        currentPhone.setColor(phone.getColor());
+        currentPhone.setLink(phone.getLink());
+        currentPhone.setPrice(phone.getPrice());
+
+        phoneService.updatePhone(currentPhone);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }

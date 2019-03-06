@@ -27,17 +27,7 @@ public class PhoneServiceImpl implements PhoneService {
     public static final String USER_NAME = "admin";
     public static final String PASSWORD = "admin123A";
 
-
-    @Override
-    public Phone getById(Long id) {
-        return phoneRepository.getById(id);
-    }
-
-    @Override
-    public List<Phone> listAllPhones() {
-        return phoneRepository.findAll();
-    }
-
+    /*========================================REST==============================================*/
     @Override
     public Phone getPhone() {
         HttpHeaders headers = new HttpHeaders();
@@ -66,7 +56,7 @@ public class PhoneServiceImpl implements PhoneService {
         }
         return null;
     }
-
+     /*========================================REST==============================================*/
 
     @Override
     public boolean isPhoneExist(Phone phone) {
@@ -90,8 +80,9 @@ public class PhoneServiceImpl implements PhoneService {
 
     @Override
     public void updatePhone(Phone currentPhone) {
+        //замена телефона
         int index = phoneRepository.findAll().indexOf(currentPhone);
-        phoneRepository.findAll().set(index, currentPhone);
+        phoneRepository.save(phoneRepository.findAll().set(index, currentPhone));
     }
 
     @Override
@@ -122,6 +113,15 @@ public class PhoneServiceImpl implements PhoneService {
             }
         }
         return null;
+    }
+    @Override
+    public Phone getById(Long id) {
+        return phoneRepository.getById(id);
+    }
+
+    @Override
+    public List<Phone> listAllPhones() {
+        return phoneRepository.findAll();
     }
 
 }
