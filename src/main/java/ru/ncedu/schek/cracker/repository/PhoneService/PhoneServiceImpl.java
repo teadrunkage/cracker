@@ -21,84 +21,33 @@ public class PhoneServiceImpl implements PhoneService {
     @Autowired
     private PhoneRepository phoneRepository;
 
-    static final String URL_PHONE = "http://localhost:8080/phones/";
+    static final String URL_PHONE = "http://localhost:8080/phones";
     static final String URL_PHONE_ID = "http://localhost:8080/phones/{id}";
 
     public static final String USER_NAME = "admin";
     public static final String PASSWORD = "admin123A";
 
-
-    @Override
-    public Phone getById(Long id) {
-        return phoneRepository.getById(id);
-    }
-
-    //запрос на получение списка телефонов у Service
-    //Возможны ошибки из-за Phone[] -> List<Phone>
-    @Override
-    public List<Phone> listAllPhones() {
-        // HttpHeaders
-        HttpHeaders headers = new HttpHeaders();
-        // Authentication
-        String auth = USER_NAME + ":" + PASSWORD;
-        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
-        String authHeader = "Basic " + new String(encodedAuth);
-        headers.set("Authorization", authHeader);
-
-        headers.setAccept(Arrays.asList(new MediaType[]{MediaType.APPLICATION_JSON}));
-        // Request to return JSON format
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        //headers.set("my_other_key", "my_other_value");
-        //get result as list phones
-        HttpEntity<List<Phone>> entity = new HttpEntity<List<Phone>>(headers);
-        RestTemplate restTemplate = new RestTemplate();
-
-        //запрос на получение списка моделей
-        ResponseEntity<Phone[]> response = restTemplate.exchange(URL_PHONE,
-                HttpMethod.GET, entity, Phone[].class);
-        HttpStatus statusCode = response.getStatusCode();
-        System.out.println("Response Satus Code: " + statusCode);
-        // Status Code: 200
-        if (statusCode == HttpStatus.OK) {
-            // Response Body Data
-            Phone[] list = response.getBody();
-            if (list != null) {
-                for (Phone e : list) {
-                    System.out.println("Phone: " + e.getModel().getModelName() + " - " + e.getPhoneId());
-                }
-                return Arrays.asList(list);
-            }
-        }
-        return null;
-    }
-
-    //запрос на получение телефона  у Service
+    /*========================================REST==============================================*/
     @Override
     public Phone getPhone() {
-        // HttpHeaders
         HttpHeaders headers = new HttpHeaders();
-        // Authentication
         String auth = USER_NAME + ":" + PASSWORD;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
         String authHeader = "Basic " + new String(encodedAuth);
         headers.set("Authorization", authHeader);
 
         headers.setAccept(Arrays.asList(new MediaType[]{MediaType.APPLICATION_JSON}));
-        // Request to return JSON format
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("my_other_key", "my_other_value");
-        //get result as model
+
         HttpEntity<Phone> entity = new HttpEntity<Phone>(headers);
+
         RestTemplate restTemplate = new RestTemplate();
 
-        //запрос на получение списка моделей
-        ResponseEntity<Phone> response = restTemplate.exchange(URL_PHONE_ID,
-                HttpMethod.GET, entity, Phone.class);
+        ResponseEntity<Phone> response = restTemplate.exchange(URL_PHONE_ID, HttpMethod.GET, entity, Phone.class);
         HttpStatus statusCode = response.getStatusCode();
         System.out.println("Response Satus Code: " + statusCode);
-        // Status Code: 200
         if (statusCode == HttpStatus.OK) {
-            // Response Body Data
             Phone phone = response.getBody();
             if (phone != null) {
                 System.out.println("Phone: " + phone.getModel().getModelName() + " - " + phone.getPhoneId());
@@ -107,12 +56,13 @@ public class PhoneServiceImpl implements PhoneService {
         }
         return null;
     }
-    //createPhone как и createModel главный магазин не будет запрашивать
+     /*========================================REST==============================================*/
 
     @Override
     public boolean isPhoneExist(Phone phone) {
         return findByName(phone.getModel().getModelName()) != null;
     }
+
     @Override
     public Phone findByName(String modelName) {
         for (Phone phone : phoneRepository.findAll()) {
@@ -130,8 +80,9 @@ public class PhoneServiceImpl implements PhoneService {
 
     @Override
     public void updatePhone(Phone currentPhone) {
+        //замена телефона
         int index = phoneRepository.findAll().indexOf(currentPhone);
-        phoneRepository.findAll().set(index, currentPhone);
+        phoneRepository.save(phoneRepository.findAll().set(index, currentPhone));
     }
 
     @Override
@@ -142,6 +93,11 @@ public class PhoneServiceImpl implements PhoneService {
                 iterator.remove();
             }
         }
+    }
+    @Override
+    public void deleteById(long id){
+        Phone phone= phoneRepository.getById(id);
+        phoneRepository.delete(phone);
     }
 
     @Override
@@ -157,6 +113,15 @@ public class PhoneServiceImpl implements PhoneService {
             }
         }
         return null;
+    }
+    @Override
+    public Phone getById(Long id) {
+        return phoneRepository.getById(id);
+    }
+
+    @Override
+    public List<Phone> listAllPhones() {
+        return phoneRepository.findAll();
     }
 
 }

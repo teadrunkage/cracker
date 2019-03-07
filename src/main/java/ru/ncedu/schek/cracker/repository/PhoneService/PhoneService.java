@@ -17,6 +17,7 @@ public interface PhoneService {
     Phone getPhone();
 
     boolean isPhoneExist(Phone phone);
+
     Phone findByName(String modelName);
 
     void savePhone(Phone phone);
@@ -25,7 +26,10 @@ public interface PhoneService {
 
     void deletePhoneById(long id);
 
+    void deleteById(long id);
+
     void deleteAllPhones();
 
     Phone findById(long id);
+
 }

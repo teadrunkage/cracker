@@ -1,13 +1,21 @@
 package ru.ncedu.schek.cracker.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.ncedu.schek.cracker.entities.Model;
+import ru.ncedu.schek.cracker.entities.Phone;
+import ru.ncedu.schek.cracker.repository.ModelRepository;
 import ru.ncedu.schek.cracker.repository.ModelService.ModelService;
+import ru.ncedu.schek.cracker.repository.PhoneService.PhoneService;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Admin on 02.03.2019.
@@ -16,53 +24,36 @@ import ru.ncedu.schek.cracker.repository.ModelService.ModelService;
 public class RestModel {
     @Autowired
     ModelService modelService;
+    @Autowired
+    PhoneService phoneService;
+    @Autowired
+    ModelRepository modelRepository;
 
-    /*сторонний магазин будет просить создать/апдейт/удалить продукт, мы должны обработать его запрос*/
     //-------------------Create a Model--------------------------------------------------------
-    @RequestMapping(value = "/model/", method = RequestMethod.POST)
-    public ResponseEntity<Void> createModel(@RequestBody Model model, UriComponentsBuilder ucBuilder){
-        System.out.println("Creating model " + model.getModelName());
-        if (modelService.isModelExist(model)){
-            System.out.println("Model with name " + model.getModelName() + " already exist");
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-        }
-        modelService.saveModel(model);
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public ResponseEntity<Void> createModel(@RequestBody Phone phone, UriComponentsBuilder ucBuilder)throws StackOverflowError{
+        System.out.println("Creating model " + phone.getModel().getModelName());
+        if (modelService.isModelExist(phone.getModel())){
+            Model model= modelService.findByName(phone.getModel().getModelName());
+            phone.setModel(model);
+            model.getPhones().add(phone);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/model/{id}").buildAndExpand(model.getModelId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-    }
-    //------------------- Update a Model --------------------------------------------------------
-
-    @RequestMapping(value = "/model/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Model> updateModel(@PathVariable("id") long id, @RequestBody Model model){
-        System.out.println("Updating model " + id);
-        Model currentModel = modelService.findById(id);
-        if (currentModel == null){
-            System.out.println("Model with id " + id + " not found");
-            return new ResponseEntity<Model>(HttpStatus.NOT_FOUND);
+            modelService.comparisonOfModelsPrice(model);
+            phoneService.savePhone(phone);
+            modelService.saveModel(model);
+            return new ResponseEntity<Void>(HttpStatus.CREATED);
         }
-        //Model_Char model, Double price, String color,String comment,List<Pictures> pictures
-        currentModel.setModelName(model.getModelName());
-        /*надо решить проблему с мин и макс ценой*/
-        currentModel.setPriceMax(1000000);
-        currentModel.setPriceMin(0);
-        currentModel.setPhones(model.getPhones());
-
-        modelService.updateModel(currentModel);
-        return new ResponseEntity<Model>(currentModel, HttpStatus.OK);
-    }
-    //------------------- Delete a Model --------------------------------------------------------
-    // возможны ошибки
-    @RequestMapping(value = "/model/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Model> deleteModel(@PathVariable("id") long id){
-        System.out.println("Fetching & deleting model with id " + id);
-        Model model = modelService.findById(id);
-        if (model == null){
-            System.out.println("Unable to delete. Model with id " + id + " not found");
-            return new ResponseEntity<Model>(HttpStatus.NOT_FOUND);
+        else if(!modelService.isModelExist(phone.getModel())) {
+            Set<Phone> phoneSet = new HashSet<>();
+            phoneSet.add(phone);
+            Model model = new Model(phone.getModel().getModelName(), phone.getPrice(), phone.getPrice());
+            model.setModelId((long)modelRepository.findAll().size()+1);
+            phone.setModel(model);
+            model.setPhones(phoneSet);
+            modelService.comparisonOfModelsPrice(model);
+            modelService.saveModel(model);
+            return new ResponseEntity<Void>(HttpStatus.CREATED);
         }
-        modelService.deleteModelById(id);
-        return new ResponseEntity<Model>(model, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 }

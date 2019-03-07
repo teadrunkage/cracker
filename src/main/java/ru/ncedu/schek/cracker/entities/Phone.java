@@ -14,7 +14,7 @@ import java.util.List;
 public class Phone {
     @Id
     @Column(name = "ID",nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long phoneId;
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
