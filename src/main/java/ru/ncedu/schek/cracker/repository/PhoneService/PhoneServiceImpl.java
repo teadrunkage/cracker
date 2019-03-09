@@ -9,9 +9,7 @@ import ru.ncedu.schek.cracker.entities.Phone;
 import ru.ncedu.schek.cracker.repository.PhoneRepository;
 
 import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Admin on 24.02.2019.
@@ -21,8 +19,10 @@ public class PhoneServiceImpl implements PhoneService {
     @Autowired
     private PhoneRepository phoneRepository;
 
-    static final String URL_PHONE = "http://localhost:8080/phones";
-    static final String URL_PHONE_ID = "http://localhost:8080/phones/{id}";
+    static final String URL_PHONE_2 = "http://localhost:8080/phones";//Daria
+    static final String URL_PHONE_1 = "http://localhost:8081/phones";//Максим
+    static final String URL_PHONE_ID_2 = "http://localhost:8080/phones/{id}";//Daria
+    static final String URL_PHONE_ID_1 = "http://localhost:8081/phones/{id}";//Maxim
 
     public static final String USER_NAME = "admin";
     public static final String PASSWORD = "admin123A";
@@ -43,20 +43,32 @@ public class PhoneServiceImpl implements PhoneService {
         HttpEntity<Phone> entity = new HttpEntity<Phone>(headers);
 
         RestTemplate restTemplate = new RestTemplate();
+        Set<String> urlSet = new HashSet<String>();
+        urlSet.add(URL_PHONE_ID_1);
+        urlSet.add(URL_PHONE_ID_2);
+        for (String URL_PHONE : urlSet) {
+            try {
+                ResponseEntity<Phone> response = restTemplate.exchange(URL_PHONE, HttpMethod.GET, entity, Phone.class);
+                HttpStatus statusCode = response.getStatusCode();
+                System.out.println("Response Satus Code: " + statusCode);
+                if (statusCode == HttpStatus.OK) {
+                    Phone phone = response.getBody();
+                    if (phone != null) {
+                        System.out.println("Phone: " + phone.getModel().getModelName() + " - " + phone.getPhoneId());
+                        return phone;
+                    }
+                }
+                return null;
+            } catch (Exception e) {
+                System.out.println("I am falling!");
+                System.out.println(e.getMessage());
+                e.printStackTrace();
 
-        ResponseEntity<Phone> response = restTemplate.exchange(URL_PHONE_ID, HttpMethod.GET, entity, Phone.class);
-        HttpStatus statusCode = response.getStatusCode();
-        System.out.println("Response Satus Code: " + statusCode);
-        if (statusCode == HttpStatus.OK) {
-            Phone phone = response.getBody();
-            if (phone != null) {
-                System.out.println("Phone: " + phone.getModel().getModelName() + " - " + phone.getPhoneId());
-                return phone;
             }
         }
         return null;
     }
-     /*========================================REST==============================================*/
+    /*========================================REST==============================================*/
 
     @Override
     public boolean isPhoneExist(Phone phone) {
@@ -94,9 +106,10 @@ public class PhoneServiceImpl implements PhoneService {
             }
         }
     }
+
     @Override
-    public void deleteById(long id){
-        Phone phone= phoneRepository.getById(id);
+    public void deleteById(long id) {
+        Phone phone = phoneRepository.getById(id);
         phoneRepository.delete(phone);
     }
 
@@ -114,6 +127,7 @@ public class PhoneServiceImpl implements PhoneService {
         }
         return null;
     }
+
     @Override
     public Phone getById(Long id) {
         return phoneRepository.getById(id);
