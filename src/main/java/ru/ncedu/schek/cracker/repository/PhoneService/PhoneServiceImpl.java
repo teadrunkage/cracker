@@ -86,7 +86,7 @@ public class PhoneServiceImpl implements PhoneService {
     @Override
     public void updatePhone(Phone currentPhone) {
         //замена телефона
-        int index = phoneRepository.findAll().indexOf(currentPhone);
+        int index = phoneRepository.findAll().indexOf(currentPhone)+1;
         phoneRepository.save(phoneRepository.findAll().set(index, currentPhone));
     }
 

@@ -9,6 +9,8 @@
 	crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" media="all"
 	th:href="@{/css/styles.css}" />
+<link rel="stylesheet" type="text/css" media="all"
+	th:href="@{/css/comment.css}" />
 </head>
 
 
@@ -43,25 +45,36 @@
 				<h4>Список доступных телефонов:</h4>
 				<table border="0">
 					<tr>
-						<th>phone_id</th>
-						<th>color</th>
-						<th>price</th>
-						<th>link</th>
+						<th>цвет</th>
+						<th>цена</th>
+						<th>ссылка на магазин</th>
 					</tr>
 					<tr th:each="phone : ${model.getPhones()}">
-						<td th:utext="${phone.getPhoneId()}">...</td>
-						<td th:utext="${phone.getColor()}">...</td>
+						<td th:utext="${phone.getColor()}">неизвестно</td>
 						<td th:utext="${phone.getPrice()}">...</td>
-						<td><a th:href="${phone.getLink()}"
-								class="btn btn-danger">Go to shop</a></td>
+						<td><a th:href="${phone.getLink()}" class="btn btn-danger">Go
+								to shop</a></td>
 					</tr>
 				</table>
 				<h4>Комментарии:</h4>
+				<p align="right">
+					<a th:href="@{/addcomment}">Добавить комментарий</a>
+				</p>
+				<div class="dialogbox" th:each="comment : ${model.getComments()}">
+					<div class="body">
+						<span><b th:utext="${comment.getUsername()}">Username</b></span>
+						<div class="message">
+							<span th:utext="${comment.getText()}">...</span>
+						</div>
+						<span style="margin-left: 40px; color: gray; font-size: 13px;"><i>оценка:</i></span>
+						<span class="tip tip-left"></span> <span
+							th:each="number: ${#numbers.sequence(1,comment.getGrade())}"
+							style="color: gray">&#8226 </span>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class="aside">
-			<img th:src="@{/img/stock_img1.jpg}" />
-		</div>
+		<div class="aside">Тут будет картинка телефона.</div>
 		<div class="one">
 			<p>Text</p>
 		</div>

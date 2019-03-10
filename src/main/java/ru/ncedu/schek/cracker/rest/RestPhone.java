@@ -31,7 +31,26 @@ public class RestPhone {
     //-------------------Delete a Phone--------------------------------------------------------
     @RequestMapping(value = "/deletephone", method = RequestMethod.POST)
     public ResponseEntity<Void> deletePhone(@RequestBody Phone phone, UriComponentsBuilder ucBuilder){
-        Phone phone1= phoneService.findPhoneByPhone(phone);
+        Model models= modelRepository.findByModelName(phone.getModel().getModelName());
+        for(Phone currentPhone: models.getPhones())
+        {
+            //добавочное сравнение по ссылкам
+            if(currentPhone.getLink().equals(phone.getLink())){
+                if (currentPhone.getModel().getPhones().size()==1){
+                    Model model = modelService.findByName(phone.getModel().getModelName());
+                    phoneRepository.delete(currentPhone);
+                    modelRepository.delete(model);
+                }else if(currentPhone.getModel().getPhones().size()>1){
+                    phoneRepository.delete(currentPhone);
+                }if (phone == null){
+                    return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+                }
+                return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+            }
+        }
+        return new ResponseEntity<Void>(HttpStatus.OK);
+
+      /*  Phone phone1= phoneService.findPhoneByPhone(phone);
         if (phone1.getModel().getPhones().size()==1){
             Model model = modelService.findByName(phone.getModel().getModelName());
                 phoneRepository.delete(phone1);
@@ -43,6 +62,7 @@ public class RestPhone {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        */
     }
     //------------------- Update a Phone --------------------------------------------------------
     @RequestMapping(value = "/modifyphone", method = RequestMethod.PUT)
