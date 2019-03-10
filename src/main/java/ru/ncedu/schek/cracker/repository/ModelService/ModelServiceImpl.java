@@ -25,6 +25,7 @@ public class ModelServiceImpl implements ModelService {
     static final String URL_MODEL1 = "http://localhost:8081/models";//Daria
     static final String URL_MODEL2 = "http://localhost:8080/models";//Maxim
 
+
     /*==============================================REST===============================================*/
     //отправляется запрос на получение моделей от магазинов
     @Override

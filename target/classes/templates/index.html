@@ -9,8 +9,6 @@
 	crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" media="all"
 	th:href="@{/css/styles.css}" />
-<link rel="stylesheet" type="text/css" media="all"
-	th:href="@{/css/comment.css}" />
 </head>
 
 
@@ -30,6 +28,7 @@
 					<ul class="pure-menu-list">
 						<li class="pure-menu-item"><a href="#" class="pure-menu-link">Категории</a></li>
 						<li class="pure-menu-item"><a href="#" class="pure-menu-link">Магазин</a></li>
+						<li class="pure-menu-item"><a href="#" class="pure-menu-link">Личный кабинет</a></li>
 					</ul>
 
 				</div>
@@ -41,12 +40,14 @@
 					<h2>Магазин</h2>
 					<table border="0">
 						<tr>
-							<th>Наименование</th>
-							<th>минимальная цена</th>
-							<th>максимальная цена</th>
-							<th>количество</th>
+							<th>id</th>
+							<th>model_name</th>
+							<th>price_min</th>
+							<th>price_max</th>
+							<th>phones</th>
 						</tr>
 						<tr th:each="model : ${models}">
+							<td th:utext="${model.getModelId()}">...</td>
 							<td th:utext="${model.getModelName()}">...</td>
 							<td th:utext="${model.getPriceMin()}">...</td>
 							<td th:utext="${model.getPriceMax()}">...</td>

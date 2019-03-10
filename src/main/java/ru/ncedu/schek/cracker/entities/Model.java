@@ -4,6 +4,8 @@ package ru.ncedu.schek.cracker.entities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -21,6 +23,9 @@ public class Model {
 
     @OneToMany(mappedBy = "model", cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     private Set<Phone> phones;
+    
+    @OneToMany(mappedBy = "model", cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<Comment>();
 
     @OneToMany(mappedBy = "model", cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<Picture> pictures;
@@ -30,6 +35,10 @@ public class Model {
 
     @Column(name = "PRICE_MAX", nullable = false)
     private long priceMax;
+    
+    @Column(name = "DESCRIPTION", nullable = true)
+    private String description;
+    
 
     public Model(String modelName,long priceMin,long priceMax) {
         this.modelName=modelName;
@@ -90,6 +99,14 @@ public class Model {
 	public void setPriceMax(long priceMax) {
 		this.priceMax = priceMax;
 	}
+	public List<Comment> getComments() {
+		return comments;
+	}
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
     
-    
+    public void addComment(Comment comment) {
+    	this.comments.add(comment);
+    }
 }
