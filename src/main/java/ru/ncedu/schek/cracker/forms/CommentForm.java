@@ -1,10 +1,23 @@
 package ru.ncedu.schek.cracker.forms;
 
+import ru.ncedu.schek.cracker.entities.Model;
+
 public class CommentForm {
+	
 	private String username;
+	
 	private int grade;
+	
 	private String text;
 	
+	private Model model;
+	
+	public Model getModel() {
+		return model;
+	}
+	public void setModel(Model model) {
+		this.model = model;
+	}
 	public String getUsername() {
 		return username;
 	}

@@ -49,20 +49,6 @@ public class RestPhone {
             }
         }
         return new ResponseEntity<Void>(HttpStatus.OK);
-
-      /*  Phone phone1= phoneService.findPhoneByPhone(phone);
-        if (phone1.getModel().getPhones().size()==1){
-            Model model = modelService.findByName(phone.getModel().getModelName());
-                phoneRepository.delete(phone1);
-                modelRepository.delete(model);
-        }else if(phone1.getModel().getPhones().size()>1){
-            phoneRepository.delete(phone1);
-        }
-        if (phone == null){
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-        */
     }
     //------------------- Update a Phone --------------------------------------------------------
     @RequestMapping(value = "/modifyphone", method = RequestMethod.PUT)
