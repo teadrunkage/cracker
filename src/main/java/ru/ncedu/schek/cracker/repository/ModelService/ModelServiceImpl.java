@@ -22,7 +22,7 @@ public class ModelServiceImpl implements ModelService {
     private PhoneRepository phoneRepository;
 
     //изменил порты
-    //static final String URL_MODEL0 = "http://localhost:8081/models";//Daria
+    static final String URL_MODEL0 = "http://localhost:8081/models";//Daria
     static final String URL_MODEL1 = "http://localhost:8080/models";//Maxim
 
     /*==============================================REST===============================================*/
@@ -32,7 +32,7 @@ public class ModelServiceImpl implements ModelService {
         RestTemplate restTemplate = new RestTemplate();
         Set<String> urlSet = new HashSet<String>();
         urlSet.add(URL_MODEL1);
-        //urlSet.add(URL_MODEL2);
+        urlSet.add(URL_MODEL0);
         for (String URL_MODEL : urlSet) {
             try {
                 Model[] list = restTemplate.getForObject(URL_MODEL, Model[].class);

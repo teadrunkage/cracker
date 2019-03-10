@@ -4,7 +4,16 @@ body {
   font-size: 15px;
   background-color: #e3e3e3;
   background-image: url(bg_lines.jpg);
-  background-size: 18%;
+  background-size: 16%;
+}
+
+a {
+	color: #154360;
+	text-decoration: none;
+}
+a:hover {
+	color: #154360;
+	text-decoration: underline;
 }
 
 #content {
@@ -12,7 +21,7 @@ body {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(5, minmax(150px, auto));
   grid-gap: 10px;
-  max-width: 1050px;
+  max-width: 1150px;
   margin: 0 auto;
 }
 
