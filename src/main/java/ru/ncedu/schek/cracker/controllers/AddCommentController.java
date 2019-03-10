@@ -1,35 +1,59 @@
 package ru.ncedu.schek.cracker.controllers;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import ru.ncedu.schek.cracker.entities.Comment;
+import ru.ncedu.schek.cracker.entities.Model;
 import ru.ncedu.schek.cracker.forms.CommentForm;
+import ru.ncedu.schek.cracker.repository.CommentRepository;
+import ru.ncedu.schek.cracker.repository.ModelRepository;
 
 
 @Controller
 public class AddCommentController {
+	@Autowired
+	private ModelRepository modelRepository;
+	@Autowired
+	CommentRepository comments;
 	
 	@RequestMapping(value = { "/addcomment" }, method = RequestMethod.GET)
-	public String addphone(Model model) {
+	public String addcomment(org.springframework.ui.Model model, @RequestParam(name="modelId") Long modelId) {
 		CommentForm commentForm = new CommentForm();
+		Model mymodel = modelRepository.getOne(modelId);
+		System.out.println("!!!!!!");
+		System.out.println(modelId);
+		System.out.println(mymodel.toString());
+		commentForm.setModel(mymodel);
 		model.addAttribute("commentForm", commentForm);
-		return "addphone";
+		return "addcomment";
 	}
 	
 	@RequestMapping(value = { "/addcomment" }, method = RequestMethod.POST)
-	public String savePhone(Model model, //
+	public String saveComment(org.springframework.ui.Model model, //
 			@ModelAttribute("commentForm") CommentForm commentForm) throws IOException, InterruptedException {
 
+		String username = commentForm.getUsername();
+		int grade = commentForm.getGrade();
+		String text = commentForm.getText();
+		Model mymodel = commentForm.getModel();
+
+	//	System.out.println(mymodel.toString());
 		
-		return "redirect:/phonerepo";
+		Comment comment = new Comment();
+		comment.setModel(mymodel);
+		comment.setUsername(username);
+		comment.setText(text);
+		comment.setGrade(grade);
+		
+		comments.save(comment);
+		
+		return "redirect://";
 	}
 }

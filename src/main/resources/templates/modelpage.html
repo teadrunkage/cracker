@@ -58,7 +58,7 @@
 				</table>
 				<h4>Комментарии:</h4>
 				<p align="right">
-					<a th:href="@{/addcomment}">Добавить комментарий</a>
+					<a th:href="@{addcomment(modelId=${model.getModelId()})}" class="btn btn-danger"  >Добавить комментарий</a>
 				</p>
 				<div class="dialogbox" th:each="comment : ${model.getComments()}">
 					<div class="body">
