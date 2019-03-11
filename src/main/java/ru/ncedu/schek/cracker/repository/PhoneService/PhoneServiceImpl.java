@@ -20,11 +20,8 @@ public class PhoneServiceImpl implements PhoneService {
     @Autowired
     private PhoneRepository phoneRepository;
 
-    static final String URL_PHONE_1 = "http://localhost:8080/phones";//Maxim
-    static final String URL_PHONE_2 = "http://localhost:8081/phones";//Daria
     static final String URL_PHONE_ID_1 = "http://localhost:8080/phones/{id}";//Maxim
     static final String URL_PHONE_ID_2 = "http://localhost:8081/phones/{id}";//Daria
-
     public static final String USER_NAME = "admin";
     public static final String PASSWORD = "admin123A";
 
@@ -48,20 +45,28 @@ public class PhoneServiceImpl implements PhoneService {
         urlSet.add(URL_PHONE_ID_1);
         urlSet.add(URL_PHONE_ID_2);
         for (String URL_PHONE : urlSet) {
-            ResponseEntity<Phone> response = restTemplate.exchange(URL_PHONE, HttpMethod.GET, entity, Phone.class);
-            HttpStatus statusCode = response.getStatusCode();
-            System.out.println("Response Satus Code: " + statusCode);
-            if (statusCode == HttpStatus.OK) {
-                Phone phone = response.getBody();
-                if (phone != null) {
-                    System.out.println("Phone: " + phone.getModel().getModelName() + " - " + phone.getPhoneId());
-                    return phone;
+            try {
+                ResponseEntity<Phone> response = restTemplate.exchange(URL_PHONE, HttpMethod.GET, entity, Phone.class);
+                HttpStatus statusCode = response.getStatusCode();
+                System.out.println("Response Satus Code: " + statusCode);
+                if (statusCode == HttpStatus.OK) {
+                    Phone phone = response.getBody();
+                    if (phone != null) {
+                        System.out.println("Phone: " + phone.getModel().getModelName() + " - " + phone.getPhoneId());
+                        return phone;
+                    }
                 }
+                return null;
+            } catch (Exception e) {
+                System.out.println("I am falling!");
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+
             }
         }
         return null;
     }
-     /*========================================REST==============================================*/
+    /*========================================REST==============================================*/
 
     @Override
     public boolean isPhoneExist(Phone phone) {
@@ -99,9 +104,10 @@ public class PhoneServiceImpl implements PhoneService {
             }
         }
     }
+
     @Override
-    public void deleteById(long id){
-        Phone phone= phoneRepository.getById(id);
+    public void deleteById(long id) {
+        Phone phone = phoneRepository.getById(id);
         phoneRepository.delete(phone);
     }
 

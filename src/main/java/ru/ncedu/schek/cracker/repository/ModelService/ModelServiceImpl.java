@@ -25,15 +25,16 @@ public class ModelServiceImpl implements ModelService {
     static final String URL_MODEL1 = "http://localhost:8081/models";//Daria
     static final String URL_MODEL2 = "http://localhost:8080/models";//Maxim
 
-
     /*==============================================REST===============================================*/
     //отправляется запрос на получение моделей от магазинов
     @Override
     public void saveAllModels() {
         RestTemplate restTemplate = new RestTemplate();
         Set<String> urlSet = new HashSet<String>();
+
         urlSet.add(URL_MODEL1);
         urlSet.add(URL_MODEL2);
+
         for (String URL_MODEL : urlSet) {
             try {
                 Model[] list = restTemplate.getForObject(URL_MODEL, Model[].class);
