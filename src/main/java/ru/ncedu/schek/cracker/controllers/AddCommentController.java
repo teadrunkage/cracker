@@ -13,6 +13,7 @@ import ru.ncedu.schek.cracker.repository.CommentRepository;
 import ru.ncedu.schek.cracker.repository.ModelRepository;
 
 import java.io.IOException;
+import java.util.Optional;
 
 
 @Controller
@@ -23,27 +24,23 @@ public class AddCommentController {
 	CommentRepository comments;
 	
 	@RequestMapping(value = { "/addcomment" }, method = RequestMethod.GET)
-	public String addcomment(org.springframework.ui.Model model, @RequestParam(name="modelId") Long modelId) {
+	public String addcomment(org.springframework.ui.Model model, @RequestParam(name="modelId") Long modelId)throws StackOverflowError{
 		CommentForm commentForm = new CommentForm();
-		Model mymodel = modelRepository.getOne(modelId);
-		System.out.println("!!!!!!");
-		System.out.println(modelId);
-		System.out.println(mymodel.toString());
+		Optional<Model> model1= modelRepository.findById(modelId);
+		Model mymodel= model1.get();
 		commentForm.setModel(mymodel);
 		model.addAttribute("commentForm", commentForm);
 		return "addcomment";
 	}
-	
+
 	@RequestMapping(value = { "/addcomment" }, method = RequestMethod.POST)
-	public String saveComment(org.springframework.ui.Model model, //
-			@ModelAttribute("commentForm") CommentForm commentForm) throws IOException, InterruptedException {
+	public String saveComment(org.springframework.ui.Model model,
+			@ModelAttribute("commentForm") CommentForm commentForm) throws IOException, InterruptedException, StackOverflowError {
 
 		String username = commentForm.getUsername();
 		int grade = commentForm.getGrade();
 		String text = commentForm.getText();
-		Model mymodel = commentForm.getModel();
-
-	//	System.out.println(mymodel.toString());
+		Model mymodel =commentForm.getModel();
 		
 		Comment comment = new Comment();
 		comment.setModel(mymodel);
@@ -55,4 +52,5 @@ public class AddCommentController {
 		
 		return "redirect://";
 	}
+
 }

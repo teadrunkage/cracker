@@ -2,6 +2,8 @@ package ru.ncedu.schek.cracker.forms;
 
 import ru.ncedu.schek.cracker.entities.Model;
 
+import javax.transaction.Transactional;
+
 public class CommentForm {
 	
 	private String username;
@@ -11,9 +13,13 @@ public class CommentForm {
 	private String text;
 	
 	private Model model;
-	
+
+	@Transactional
 	public Model getModel() {
 		return model;
+	}
+	public Long getId(){
+		return  model.getModelId();
 	}
 	public void setModel(Model model) {
 		this.model = model;
