@@ -27,7 +27,7 @@ public class AddCommentController {
 	public String addcomment(org.springframework.ui.Model model, @RequestParam(name="modelId") Long modelId)throws StackOverflowError{
 		CommentForm commentForm = new CommentForm();
 		Optional<Model> model1= modelRepository.findById(modelId);
-		Model mymodel= model1.get();
+		Model mymodel= modelRepository.getOne(modelId);
 		commentForm.setModel(mymodel);
 		model.addAttribute("commentForm", commentForm);
 		return "addcomment";
