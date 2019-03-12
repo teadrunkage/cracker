@@ -44,7 +44,6 @@ public class DataInit implements ApplicationRunner {
 		phones.save(test_phone);
 		models.save(test_model);
 		
-	//	Model mymodel = models.getOne((long) 1);
-	//	System.out.println(mymodel.toString());
+	//	test_model.getPhones().iterator().next().getPictures().iterator().next().getLink();
 	}
 }

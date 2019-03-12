@@ -74,7 +74,10 @@
 				</div>
 			</div>
 		</div>
-		<div class="aside">Тут будет картинка телефона.</div>
+		<div class="aside">
+			<img width=350 height=350 th:src="${model.getPhones().iterator().next().getPicturelink()}" />
+		
+		</div>
 		<div class="one">
 			<p>Text</p>
 		</div>
