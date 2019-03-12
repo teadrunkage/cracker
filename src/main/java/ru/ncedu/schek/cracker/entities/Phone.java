@@ -21,9 +21,6 @@ public class Phone {
     @JoinColumn(name = "MODEL_ID")
     private Model model;
 
-    @OneToMany(mappedBy = "phone", cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
-    private List<Picture> pictures;
-
     @Column(name = "PRICE")
     private long price;
 
@@ -32,6 +29,10 @@ public class Phone {
     
     @Column(name = "LINK", nullable=true)
     private String link;
+    
+    @Lob
+    @Column(name = "PICTURE_LINK", nullable=true)
+    private String picturelink;
 
     public Phone( Model model, long price, String color) {
         this.model = model;
@@ -67,12 +68,7 @@ public class Phone {
 	public void setModel(Model model) {
 		this.model = model;
 	}
-	public List<Picture> getPictures() {
-		return pictures;
-	}
-	public void setPictures(List<Picture> pictures) {
-		this.pictures = pictures;
-	}
+
 	public long getPrice() {
 		return price;
 	}
@@ -91,6 +87,13 @@ public class Phone {
 	public void setLink(String link) {
 		this.link = link;
 	}
+	public String getPicturelink() {
+		return picturelink;
+	}
+	public void setPicturelink(String picturelink) {
+		this.picturelink = picturelink;
+	}
     
+	
     
 }

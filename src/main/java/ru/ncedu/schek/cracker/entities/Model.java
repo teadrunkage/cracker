@@ -27,9 +27,6 @@ public class Model {
     @OneToMany(mappedBy = "model", cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<Comment>();
 
-    @OneToMany(mappedBy = "model", cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
-    private List<Picture> pictures;
-
     @Column(name = "PRICE_MIN", nullable = false)
     private long priceMin;
 
@@ -81,12 +78,7 @@ public class Model {
 	public void setPhones(Set<Phone> phones) {
 		this.phones = phones;
 	}
-	public List<Picture> getPictures() {
-		return pictures;
-	}
-	public void setPictures(List<Picture> pictures) {
-		this.pictures = pictures;
-	}
+
 	public long getPriceMin() {
 		return priceMin;
 	}
