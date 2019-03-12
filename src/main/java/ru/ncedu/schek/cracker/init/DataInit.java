@@ -42,7 +42,9 @@ public class DataInit implements ApplicationRunner {
 		comments.save(test_comment3);
 		Phone test_phone = new Phone(test_model, 12000, "black");
 		phones.save(test_phone);
+		models.save(test_model);
 		
-		
+	//	Model mymodel = models.getOne((long) 1);
+	//	System.out.println(mymodel.toString());
 	}
 }

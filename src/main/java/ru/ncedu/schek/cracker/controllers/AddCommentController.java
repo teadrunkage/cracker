@@ -21,16 +21,17 @@ public class AddCommentController {
 	@Autowired
 	private ModelRepository modelRepository;
 	@Autowired
-	CommentRepository comments;
+	private CommentRepository comments;
+	
+	private Model mymodel;
 	
 	@RequestMapping(value = { "/addcomment" }, method = RequestMethod.GET)
 	public String addcomment(org.springframework.ui.Model model, @RequestParam(name="modelId") Long modelId) {
 		CommentForm commentForm = new CommentForm();
-		Model mymodel = modelRepository.getOne(modelId);
+		mymodel = modelRepository.getOne(modelId);
 		System.out.println("!!!!!!");
 		System.out.println(modelId);
-		System.out.println(mymodel.toString());
-		commentForm.setModel(mymodel);
+		System.out.println(mymodel.getModelName());
 		model.addAttribute("commentForm", commentForm);
 		return "addcomment";
 	}
@@ -42,9 +43,8 @@ public class AddCommentController {
 		String username = commentForm.getUsername();
 		int grade = commentForm.getGrade();
 		String text = commentForm.getText();
-		Model mymodel = commentForm.getModel();
 
-	//	System.out.println(mymodel.toString());
+		System.out.println(mymodel.getModelName());
 		
 		Comment comment = new Comment();
 		comment.setModel(mymodel);
@@ -54,6 +54,6 @@ public class AddCommentController {
 		
 		comments.save(comment);
 		
-		return "redirect://";
+		return "redirect:/modelpage";
 	}
 }
