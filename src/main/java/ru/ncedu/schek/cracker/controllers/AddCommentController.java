@@ -15,42 +15,53 @@ import ru.ncedu.schek.cracker.repository.ModelRepository;
 import java.io.IOException;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 @Controller
 public class AddCommentController {
 	@Autowired
 	private ModelRepository modelRepository;
 	@Autowired
-	CommentRepository comments;
+	private CommentRepository comments;
 	
+	private Model mymodel;
+	private String referer;
+
 	@RequestMapping(value = { "/addcomment" }, method = RequestMethod.GET)
-	public String addcomment(org.springframework.ui.Model model, @RequestParam(name="modelId") Long modelId)throws StackOverflowError{
+	public String addcomment(org.springframework.ui.Model model, //
+							 HttpServletRequest request, //
+							 @RequestParam(name="modelId") Long modelId) {
 		CommentForm commentForm = new CommentForm();
-		Optional<Model> model1= modelRepository.findById(modelId);
-		Model mymodel= modelRepository.getOne(modelId);
-		commentForm.setModel(mymodel);
+		mymodel = modelRepository.getOne(modelId);
+		System.out.println("!!!!!!");
+		System.out.println(modelId);
+		System.out.println(mymodel.getModelName());
 		model.addAttribute("commentForm", commentForm);
+
+		referer = request.getHeader("Referer");
 		return "addcomment";
 	}
 
 	@RequestMapping(value = { "/addcomment" }, method = RequestMethod.POST)
-	public String saveComment(org.springframework.ui.Model model,
-			@ModelAttribute("commentForm") CommentForm commentForm) throws IOException, InterruptedException, StackOverflowError {
+	public String saveComment(org.springframework.ui.Model model, //
+							  @ModelAttribute("commentForm") CommentForm commentForm) throws IOException, InterruptedException {
 
 		String username = commentForm.getUsername();
 		int grade = commentForm.getGrade();
 		String text = commentForm.getText();
-		Model mymodel =commentForm.getModel();
-		
+
+		System.out.println(mymodel.getModelName());
+
 		Comment comment = new Comment();
 		comment.setModel(mymodel);
 		comment.setUsername(username);
 		comment.setText(text);
 		comment.setGrade(grade);
-		
+
 		comments.save(comment);
-		
-		return "redirect://";
+
+		return "redirect:"+ referer;
 	}
 
 }
