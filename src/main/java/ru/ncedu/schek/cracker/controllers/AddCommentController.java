@@ -14,6 +14,8 @@ import ru.ncedu.schek.cracker.repository.ModelRepository;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 @Controller
 public class AddCommentController {
@@ -23,15 +25,20 @@ public class AddCommentController {
 	private CommentRepository comments;
 	
 	private Model mymodel;
+	private String referer;
 	
 	@RequestMapping(value = { "/addcomment" }, method = RequestMethod.GET)
-	public String addcomment(org.springframework.ui.Model model, @RequestParam(name="modelId") Long modelId) {
+	public String addcomment(org.springframework.ui.Model model, //
+			HttpServletRequest request, //
+			@RequestParam(name="modelId") Long modelId) {
 		CommentForm commentForm = new CommentForm();
 		mymodel = modelRepository.getOne(modelId);
 		System.out.println("!!!!!!");
 		System.out.println(modelId);
 		System.out.println(mymodel.getModelName());
 		model.addAttribute("commentForm", commentForm);
+		
+		referer = request.getHeader("Referer");
 		return "addcomment";
 	}
 	
@@ -53,6 +60,6 @@ public class AddCommentController {
 		
 		comments.save(comment);
 		
-		return "redirect:/modelpage";
+	    return "redirect:"+ referer;
 	}
 }
