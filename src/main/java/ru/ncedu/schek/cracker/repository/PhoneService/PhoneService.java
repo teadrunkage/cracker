@@ -1,5 +1,6 @@
 package ru.ncedu.schek.cracker.repository.PhoneService;
 
+import ru.ncedu.schek.cracker.entities.Model;
 import ru.ncedu.schek.cracker.entities.Phone;
 
 import java.util.List;
@@ -28,8 +29,11 @@ public interface PhoneService {
 
     void deleteById(long id);
 
+    Phone findPhoneByPhone(Phone phone);
+
     void deleteAllPhones();
 
     Phone findById(long id);
 
+    Phone findByModel(Model model);
 }
