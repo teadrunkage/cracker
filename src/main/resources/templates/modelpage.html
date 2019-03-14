@@ -21,17 +21,16 @@
 			<img th:src="@{/img/logo.png}" width=400 height=143 align="left" />
 			<div class="header-right">
 				<div class="pure-menu pure-menu-horizontal">
-					<form class="pure-form">
-						<input class="pure-input-2-3" type="text"
+					<form class="pure-form" th:action="@{/search}" th:object="${searchForm}"
+					method="POST">
+						<input class="pure-input-2-3" type="text" th:field="*{text}"
 							placeholder="Начните поиск...">
 						<button type="submit" class="pure-button">Search</button>
 					</form>
-					<a href="#" class="pure-menu-heading pure-menu-link">ГЛАВНАЯ</a>
+					<a th:href="@{/index}" class="pure-menu-heading pure-menu-link">ГЛАВНАЯ</a>
 					<ul class="pure-menu-list">
-						<li class="pure-menu-item"><a href="#" class="pure-menu-link">Категории</a></li>
-						<li class="pure-menu-item"><a href="#" class="pure-menu-link">Магазин</a></li>
-						<li class="pure-menu-item"><a href="#" class="pure-menu-link">Личный
-								кабинет</a></li>
+						<li class="pure-menu-item"><a th:href="@{/category}" class="pure-menu-link">Категории</a></li>
+						<li class="pure-menu-item"><a th:href="@{/index}" class="pure-menu-link">Магазин</a></li>
 					</ul>
 
 				</div>

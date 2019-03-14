@@ -32,25 +32,30 @@
 						<li class="pure-menu-item"><a th:href="@{/category}" class="pure-menu-link">Категории</a></li>
 						<li class="pure-menu-item"><a th:href="@{/index}" class="pure-menu-link">Магазин</a></li>
 					</ul>
-
 				</div>
 
 			</div>
 		</div>
 		<div class="featured">
-			<h2>Добавить комментарий</h2>
-				<form th:action="@{/addcomment}" th:object="${commentForm}"
-					method="POST">
-					Username: <br>
-					<input type="text" th:field="*{username}" placeholder="username" /> <br />
-					Оценка: <br>
-					<input type="text" th:field="*{grade}" placeholder="grade"/> <br />
-					Текст комментария: <br>
-					<input type="text" th:field="*{text}" placeholder="text"/> <br />
-                    <br>
-                    <br>
-					<input type="submit" value="Отправить" />
-				</form>
+			<div>
+					<h2>Результаты поиска:</h2>
+					<table th:if="${!searchEmpty}" border="0">
+						<tr>
+							<th>Наименование</th>
+							<th>минимальная цена</th>
+							<th>максимальная цена</th>
+							<th>количество</th>
+						</tr>
+						<tr th:each="model : ${models}">
+							<td th:utext="${model.getModelName()}">...</td>
+							<td th:utext="${model.getPriceMin()}">...</td>
+							<td th:utext="${model.getPriceMax()}">...</td>
+							<td><a th:href="@{/modelpage(modelId=${model.getModelId()})}"
+								class="btn btn-danger" th:text="${model.getNumberOfPhones()}">...</a></td>
+						</tr>
+					</table>
+					<p th:if="${searchEmpty}">Модели не найдены.</p>
+				</div>
 		</div>
 		<div class="aside">
 			<img th:src="@{/img/stock_img1.jpg}" />

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ru.ncedu.schek.cracker.entities.Model;
+import ru.ncedu.schek.cracker.forms.SearchForm;
 import ru.ncedu.schek.cracker.repository.ModelRepository;
 
 @Controller
@@ -17,6 +18,10 @@ public class ModelPageController {
 	
 	@GetMapping
     public String modelpage(org.springframework.ui.Model model, @RequestParam(name="modelId")long modelId) {		
+		
+		SearchForm searchForm = new SearchForm();
+		model.addAttribute("searchForm", searchForm);
+		
 		Model mymodel = modelRepository.getOne(modelId);
 		System.out.println("!!!!!!!");
 		System.out.println(modelRepository.count());
