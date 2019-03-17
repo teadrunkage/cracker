@@ -4,14 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-
 import ru.ncedu.schek.cracker.entities.Comment;
 import ru.ncedu.schek.cracker.entities.Model;
 import ru.ncedu.schek.cracker.entities.Phone;
 import ru.ncedu.schek.cracker.repository.CommentRepository;
 import ru.ncedu.schek.cracker.repository.ModelRepository;
-import ru.ncedu.schek.cracker.repository.PhoneRepository;
 import ru.ncedu.schek.cracker.repository.ModelService.ModelService;
+import ru.ncedu.schek.cracker.repository.PhoneRepository;
 import ru.ncedu.schek.cracker.repository.PhoneService.PhoneService;
 
 @Component
@@ -43,7 +42,8 @@ public class DataInit implements ApplicationRunner {
 		Phone test_phone = new Phone(test_model, 12000, "black");
 		phones.save(test_phone);
 		models.save(test_model);
-		
+
+
 	//	test_model.getPhones().iterator().next().getPictures().iterator().next().getLink();
 	}
 }
