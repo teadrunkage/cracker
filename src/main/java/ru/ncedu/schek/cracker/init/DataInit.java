@@ -12,6 +12,7 @@ import ru.ncedu.schek.cracker.repository.ModelRepository;
 import ru.ncedu.schek.cracker.repository.ModelService.ModelService;
 import ru.ncedu.schek.cracker.repository.PhoneRepository;
 import ru.ncedu.schek.cracker.repository.PhoneService.PhoneService;
+import ru.ncedu.schek.cracker.websocket.GreetClient;
 
 @Component
 public class DataInit implements ApplicationRunner {
@@ -42,6 +43,12 @@ public class DataInit implements ApplicationRunner {
 		Phone test_phone = new Phone(test_model, 12000, "black");
 		phones.save(test_phone);
 		models.save(test_model);
+
+		GreetClient client1 = new GreetClient();
+		client1.startConnection("127.0.0.1", 5555);
+		String msg1 = client1.sendMessage("hello");
+		String msg2 = client1.sendMessage("world");
+		String terminate = client1.sendMessage(".");
 
 
 	//	test_model.getPhones().iterator().next().getPictures().iterator().next().getLink();
