@@ -6,8 +6,13 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import ru.ncedu.schek.cracker.forms.ChatMessage;
+import ru.ncedu.schek.cracker.websocket.ChatEndpoint;
+import ru.ncedu.schek.cracker.websocket.GreetClient;
 
 import javax.json.Json;
+import javax.json.JsonObject;
+import java.io.StringReader;
+import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
@@ -18,8 +23,13 @@ public class WebSocketController {
     @MessageMapping("/chat.sendMessage")
     @SendTo("/topic/publicChatRoom")
     public ChatMessage sendMessage(@Payload ChatMessage chatMessage) throws URISyntaxException {
+        GreetClient client1 = new GreetClient();
+        //client1.startConnection("127.0.0.1", 5555);
+        /*String msg1 = client1.sendMessage("hello");
+        String msg2 = client1.sendMessage("world");
+        String terminate = client1.sendMessage(".");*/
 
-        /*final ChatEndpoint clientEndPoint = new ChatEndpoint(new URI("ws://localhost:8080/chat"));
+        final ChatEndpoint clientEndPoint = new ChatEndpoint(new URI("ws://localhost:8080/chat"));
         clientEndPoint.addMessageHandler(new ChatEndpoint.MessageHandler() {
             public void handleMessage(String message) {
                 JsonObject jsonObject = Json.createReader(new StringReader(message)).readObject();
@@ -30,7 +40,7 @@ public class WebSocketController {
                 }
             }
         });
-        */
+
         return chatMessage;
     }
     private static String getMessage(String message) {
