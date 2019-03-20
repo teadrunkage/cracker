@@ -29,7 +29,8 @@ public class WebSocketController {
         String msg2 = client1.sendMessage("world");
         String terminate = client1.sendMessage(".");*/
 
-        final ChatEndpoint clientEndPoint = new ChatEndpoint(new URI("ws://localhost:8080/chat"));
+        //здесь и возникает проблемес
+        final ChatEndpoint clientEndPoint = new ChatEndpoint(new URI("ws://127.0.0.1:5555/chat"));
         clientEndPoint.addMessageHandler(new ChatEndpoint.MessageHandler() {
             public void handleMessage(String message) {
                 JsonObject jsonObject = Json.createReader(new StringReader(message)).readObject();
