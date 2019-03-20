@@ -44,7 +44,7 @@ public class Model {
     }
     public Model() {
     }
-
+/*
     @Override
     public String toString() {
         return "Model{" +
@@ -55,7 +55,8 @@ public class Model {
                 ", modelId=" + modelId +
                 '}';
     }
-    
+    */
+
     public int getNumberOfPhones() {
     	return this.getPhones().size();
     }

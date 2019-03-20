@@ -14,6 +14,7 @@ import ru.ncedu.schek.cracker.repository.CommentRepository;
 import ru.ncedu.schek.cracker.repository.ModelRepository;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,7 +28,7 @@ public class AddCommentController {
 	
 	private Model mymodel;
 	private String referer;
-	
+
 	@RequestMapping(value = { "/addcomment" }, method = RequestMethod.GET)
 	public String addcomment(org.springframework.ui.Model model, //
 			HttpServletRequest request, //
@@ -35,33 +36,33 @@ public class AddCommentController {
 		
 		SearchForm searchForm = new SearchForm();
 		model.addAttribute("searchForm", searchForm);
-		
 		CommentForm commentForm = new CommentForm();
 		mymodel = modelRepository.getOne(modelId);
 		model.addAttribute("commentForm", commentForm);
-		
+
 		referer = request.getHeader("Referer");
 		return "addcomment";
 	}
-	
+
 	@RequestMapping(value = { "/addcomment" }, method = RequestMethod.POST)
 	public String saveComment(org.springframework.ui.Model model, //
-			@ModelAttribute("commentForm") CommentForm commentForm) throws IOException, InterruptedException {
+							  @ModelAttribute("commentForm") CommentForm commentForm) throws IOException, InterruptedException {
 
 		String username = commentForm.getUsername();
 		int grade = commentForm.getGrade();
 		String text = commentForm.getText();
 
 		System.out.println(mymodel.getModelName());
-		
+
 		Comment comment = new Comment();
 		comment.setModel(mymodel);
 		comment.setUsername(username);
 		comment.setText(text);
 		comment.setGrade(grade);
-		
+
 		comments.save(comment);
-		
-	    return "redirect:"+ referer;
+
+		return "redirect:"+ referer;
 	}
+
 }

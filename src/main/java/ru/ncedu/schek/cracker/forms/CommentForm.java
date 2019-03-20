@@ -1,14 +1,16 @@
 package ru.ncedu.schek.cracker.forms;
 
 
+import javax.transaction.Transactional;
+
 public class CommentForm {
-	
+
 	private String username;
-	
+
 	private int grade;
-	
+
 	private String text;
-	
+
 	public String getUsername() {
 		return username;
 	}

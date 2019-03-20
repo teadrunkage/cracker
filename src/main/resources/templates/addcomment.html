@@ -1,21 +1,21 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8" />
-<title>Cracker</title>
-<link rel="stylesheet"
-	href="https://unpkg.com/purecss@1.0.0/build/pure-min.css"
-	integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w"
-	crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" media="all"
-	th:href="@{/css/styles.css}" />
-<link rel="stylesheet" type="text/css" media="all"
-	th:href="@{/css/comment.css}" />
+    <meta charset="UTF-8"/>
+    <title>Cracker</title>
+    <link rel="stylesheet"
+          href="https://unpkg.com/purecss@1.0.0/build/pure-min.css"
+          integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w"
+          crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="all"
+          th:href="@{/css/styles.css}"/>
+    <link rel="stylesheet" type="text/css" media="all"
+          th:href="@{/css/comment.css}"/>
 </head>
 
 
-
 <body>
+<<<<<<< HEAD
 	<div id="content">
 		<div class="header">
 			<img th:src="@{/img/logo.png}" width=400 height=143 align="left" />
@@ -33,41 +33,41 @@
 						<li class="pure-menu-item"><a th:href="@{/index}" class="pure-menu-link">Магазин</a></li>
 					</ul>
 
-				</div>
 
-			</div>
-		</div>
-		<div class="featured">
-			<h2>Добавить комментарий</h2>
-				<form th:action="@{/addcomment}" th:object="${commentForm}"
-					method="POST">
-					Username: <br>
-					<input type="text" th:field="*{username}" placeholder="username" /> <br />
-					Оценка: <br>
-					<input type="text" th:field="*{grade}" placeholder="grade"/> <br />
-					Текст комментария: <br>
-					<input type="text" th:field="*{text}" placeholder="text"/> <br />
-                    <br>
-                    <br>
-					<input type="submit" value="Отправить" />
-				</form>
-		</div>
-		<div class="aside">
-			<img th:src="@{/img/stock_img1.jpg}" />
-		</div>
-		<div class="one">
-			<p>Text</p>
-		</div>
-		<div class="two">
-			<p>Text</p>
-		</div>
-		<div class="three">
-			<p>Text</p>
-		</div>
-		<div class="footer">
-			<p align="right">Group project for NC. March 2019.
-			<p>
-		</div>
-	</div>
+            </div>
+
+        </div>
+    </div>
+    <div class="featured">
+        <h2>Добавить комментарий</h2>
+        <form th:action="@{/addcomment}" th:object="${commentForm}" method="POST">
+                Username: <br>
+                <input type="text" th:field="*{username}" placeholder="username"/> <br/>
+                Оценка: <br>
+                <input type="text" th:field="*{grade}" placeholder="grade"/> <br/>
+                Текст комментария: <br>
+                <input type="text" th:field="*{text}" placeholder="text"/> <br/>
+                <br>
+                <br>
+                <input type="submit" value="Отправить"/>
+        </form>
+    </div>
+    <div class="aside">
+        <img th:src="@{/img/stock_img1.jpg}"/>
+    </div>
+    <div class="one">
+        <p>Text</p>
+    </div>
+    <div class="two">
+        <p>Text</p>
+    </div>
+    <div class="three">
+        <p>Text</p>
+    </div>
+    <div class="footer">
+        <p align="right">Group project for NC. March 2019.
+        <p>
+    </div>
+</div>
 </body>
 </html>
