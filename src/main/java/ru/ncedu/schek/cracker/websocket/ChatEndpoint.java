@@ -1,52 +1,65 @@
 package ru.ncedu.schek.cracker.websocket;
 
-import javax.websocket.*;
-import java.net.URI;
+import javax.websocket.OnClose;
+import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Admin on 16.03.2019.
  */
 
 
-@ClientEndpoint(decoders = MessageDecoder.class, encoders = MessageEncoder.class)
+@ServerEndpoint(value="/chat",decoders = MessageDecoder.class, encoders = MessageEncoder.class)
 public class ChatEndpoint {
-    Session userSession = null;
-    private MessageHandler messageHandler;
+    Set<Session> userSessions = Collections.synchronizedSet(new HashSet<Session>());
 
-    public ChatEndpoint(URI endpointURI) {
-        try {
-            WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-            container.connectToServer(this, endpointURI);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
+    /**
+     * Callback hook for Connection open events.
+     *
+     * This method will be invoked when a client requests for a
+     * WebSocket connection.
+     *
+     * @param userSession the userSession which is opened.
+     */
     @OnOpen
     public void onOpen(Session userSession) {
-        this.userSession = userSession;
+        System.out.println("New request received. Id: " + userSession.getId());
+        userSessions.add(userSession);
     }
 
+    /**
+     * Callback hook for Connection close events.
+     *
+     * This method will be invoked when a client closes a WebSocket
+     * connection.
+     *
+     * @param userSession the userSession which is opened.
+     */
     @OnClose
-    public void onClose(Session userSession, CloseReason reason) {
-        this.userSession = null;
+    public void onClose(Session userSession) {
+        System.out.println("Connection closed. Id: " + userSession.getId());
+        userSessions.remove(userSession);
     }
 
+    /**
+     * Callback hook for Message Events.
+     *
+     * This method will be invoked when a client send a message.
+     *
+     * @param message The text message
+     * @param userSession The session of the client
+     */
     @OnMessage
-    public void onMessage(String message) {
-        if (this.messageHandler != null)
-            this.messageHandler.handleMessage(message);
-    }
-
-    public void addMessageHandler(MessageHandler msgHandler) {
-        this.messageHandler = msgHandler;
-    }
-
-    public void sendMessage(String message) {
-        this.userSession.getAsyncRemote().sendText(message);
-    }
-
-    public static interface MessageHandler {
-        public void handleMessage(String message);
+    public void onMessage(String message, Session userSession) {
+        System.out.println("Message Received: " + message);
+        for (Session session : userSessions) {
+            System.out.println("Sending to " + session.getId());
+            session.getAsyncRemote().sendText(message);
+        }
     }
 }

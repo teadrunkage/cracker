@@ -25,8 +25,9 @@ public class MainController {
 		model.addAttribute("models", models);
 		return "index";
 	}
-	@RequestMapping("/chat")
-	public String index(HttpServletRequest request, org.springframework.ui.Model model) {
+
+	@RequestMapping("/chatA")
+	public String chat(HttpServletRequest request, org.springframework.ui.Model model) {
 		String username = (String) request.getSession().getAttribute("username");
 
 		if (username == null || username.isEmpty()) {
@@ -34,6 +35,14 @@ public class MainController {
 		}
 		model.addAttribute("username", username);
 
+		return "chat";
+	}
+
+	@RequestMapping("/chatAdmin")
+	public String chatForAdmin(HttpServletRequest request, org.springframework.ui.Model model) {
+		//String username = (String) request.getSession().getAttribute("username");
+		String username= "AdminAdmin";
+		model.addAttribute("username", username);
 		return "chat";
 	}
 
