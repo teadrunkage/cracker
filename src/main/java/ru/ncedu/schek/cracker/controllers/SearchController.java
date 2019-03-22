@@ -48,6 +48,7 @@ public class SearchController {
 		SearchForm searchForm = new SearchForm();
 		model.addAttribute("searchForm", searchForm);
 		
+		
 		List <Model> models = modelRepository.findAll();
 		List <Model> searchModels = new ArrayList<Model>();
 		for (Model m: models) {

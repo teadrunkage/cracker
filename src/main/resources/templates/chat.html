@@ -13,14 +13,7 @@
 <body>
 <div id="chat-container">
     <div class="chat-header">
-        <div class="user-container">
-            <span id="username" th:utext="${username}"></span>
-            <a th:href="@{/logout}">Logout</a>
-        </div>
-        <h3>Spring WebSocket Chat Demo</h3>
     </div>
-
-    <hr/>
 
     <div id="connecting">Connecting...</div>
     <ul id="messageArea">
@@ -29,6 +22,10 @@
         <div class="input-message">
             <input type="text" id="message" autocomplete="off"
                    placeholder="Type a message..."/>
+             <div class="user-container" align="right">
+            <span id="username" th:utext="${username}"></span>
+            <a th:href="@{/logout}">logout</a>
+            </div>
             <button type="submit">Send</button>
         </div>
     </form>

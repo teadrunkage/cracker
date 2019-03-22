@@ -23,14 +23,15 @@ public class WebSocketController {
     @MessageMapping("/chat.sendMessage")
     @SendTo("/topic/publicChatRoom")
     public ChatMessage sendMessage(@Payload ChatMessage chatMessage) throws URISyntaxException {
-        GreetClient client1 = new GreetClient();
-        //client1.startConnection("127.0.0.1", 5555);
-        /*String msg1 = client1.sendMessage("hello");
-        String msg2 = client1.sendMessage("world");
-        String terminate = client1.sendMessage(".");*/
+      //Прямое общение
+    	GreetClient client1 = new GreetClient();
+        client1.startConnection("127.0.0.1", 5555);
+        String text = chatMessage.getContent();
+        String msg1 = client1.sendMessage(text);
+        String terminate = client1.sendMessage(".");
 
         //здесь и возникает проблемес
-        final ChatEndpoint clientEndPoint = new ChatEndpoint(new URI("ws://127.0.0.1:5555/chat"));
+    /*    final ChatEndpoint clientEndPoint = new ChatEndpoint(new URI("ws://127.0.0.1:5555/chat"));
         clientEndPoint.addMessageHandler(new ChatEndpoint.MessageHandler() {
             public void handleMessage(String message) {
                 JsonObject jsonObject = Json.createReader(new StringReader(message)).readObject();
@@ -40,10 +41,11 @@ public class WebSocketController {
                     // other dirty bot logic goes here.. :)
                 }
             }
-        });
+        }); */
 
         return chatMessage;
     }
+    
     private static String getMessage(String message) {
         return Json.createObjectBuilder()
                 .add("user", "bot")
