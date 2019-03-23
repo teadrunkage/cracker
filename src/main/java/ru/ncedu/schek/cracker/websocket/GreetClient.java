@@ -24,6 +24,10 @@ public class GreetClient {
         }
     }
 
+    public boolean isWebSocketValid(Socket socket){
+        return socket.isConnected();
+    }
+
     public String sendMessage(String msg) {
         try {
             out.println(msg);

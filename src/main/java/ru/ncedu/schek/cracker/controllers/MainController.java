@@ -26,24 +26,14 @@ public class MainController {
 		return "index";
 	}
 
-	@RequestMapping("/chatA")
+	@RequestMapping("/chat")
 	public String chat(HttpServletRequest request, org.springframework.ui.Model model) {
 		String username = (String) request.getSession().getAttribute("username");
-
 		if (username == null || username.isEmpty()) {
 			return "redirect:/login";
 		}
 		model.addAttribute("username", username);
-
-		return "chat";
-	}
-
-	@RequestMapping("/chatAdmin")
-	public String chatForAdmin(HttpServletRequest request, org.springframework.ui.Model model) {
-		//String username = (String) request.getSession().getAttribute("username");
-		String username= "AdminAdmin";
-		model.addAttribute("username", username);
-		return "chat";
+		return "chat.html";
 	}
 
 	@RequestMapping(path = "/login", method = RequestMethod.GET)

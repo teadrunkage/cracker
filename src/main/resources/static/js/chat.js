@@ -12,9 +12,17 @@ var username = null;
 
 function connect() {
     username = document.querySelector('#username').innerText.trim();
-    var socket = new SockJS('/ws');
+    var socket = new SockJS('/greeting');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, onConnected, onError);
+}
+
+function disconnect() {
+    if (ws != null) {
+        ws.close();
+    }
+    setConnected(false);
+    console.log("Disconnected");
 }
 
 // Connect to WebSocket Server.
