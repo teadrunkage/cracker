@@ -45,10 +45,15 @@ function sendMessage(event) {
             type: 'CHAT'
         };
         stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+        setTimeout(function() {stompClient.send("/app/chat.answerByBot", {}, JSON.stringify(chatMessage)) }, 500);
         messageInput.value = '';
     }
+    
     event.preventDefault();
+    
 }
+
+
 
 
 function onMessageReceived(payload) {

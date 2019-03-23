@@ -1,16 +1,16 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
-    <title>Cracker</title>
-    <link rel="stylesheet"
-          href="https://unpkg.com/purecss@1.0.0/build/pure-min.css"
-          integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w"
-          crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" media="all"
-          th:href="@{/css/styles.css}"/>
-    <link rel="stylesheet" type="text/css" media="all"
-          th:href="@{/css/comment.css}"/>
+<meta charset="UTF-8" />
+<title>Cracker</title>
+<link rel="stylesheet"
+	href="https://unpkg.com/purecss@1.0.0/build/pure-min.css"
+	integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w"
+	crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" media="all"
+	th:href="@{/css/styles.css}" />
+<link rel="stylesheet" type="text/css" media="all"
+	th:href="@{/css/comment.css}" />
 </head>
 
 
@@ -20,53 +20,62 @@
 			<img th:src="@{/img/logo.png}" width=400 height=143 align="left" />
 			<div class="header-right">
 				<div class="pure-menu pure-menu-horizontal">
-					<form class="pure-form" th:action="@{/search}" th:object="${searchForm}"
-					method="POST">
+					<form class="pure-form" th:action="@{/search}"
+						th:object="${searchForm}" method="POST">
 						<input class="pure-input-2-3" type="text" th:field="*{text}"
 							placeholder="Начните поиск...">
 						<button type="submit" class="pure-button">Search</button>
 					</form>
 					<a th:href="@{/index}" class="pure-menu-heading pure-menu-link">ГЛАВНАЯ</a>
 					<ul class="pure-menu-list">
-						<li class="pure-menu-item"><a th:href="@{/category}" class="pure-menu-link">Категории</a></li>
-						<li class="pure-menu-item"><a th:href="@{/index}" class="pure-menu-link">Магазин</a></li>
+						<li class="pure-menu-item"><a th:href="@{/category}"
+							class="pure-menu-link">Категории</a></li>
+						<li class="pure-menu-item"><a th:href="@{/index}"
+							class="pure-menu-link">Магазин</a></li>
 					</ul>
 
 
-            </div>
+				</div>
 
-        </div>
-    </div>
-    <div class="featured">
-        <h2>Добавить комментарий</h2>
-        <form th:action="@{/addcomment}" th:object="${commentForm}" method="POST">
-                Username: <br>
-                <input type="text" th:field="*{username}" placeholder="username"/> <br/>
-                Оценка: <br>
-                <input type="text" th:field="*{grade}" placeholder="grade"/> <br/>
-                Текст комментария: <br>
-                <input type="text" th:field="*{text}" placeholder="text"/> <br/>
-                <br>
-                <br>
-                <input type="submit" value="Отправить"/>
-        </form>
-    </div>
-    <div class="aside">
-        <img th:src="@{/img/stock_img1.jpg}"/>
-    </div>
-    <div class="one">
-        <p>Text</p>
-    </div>
-    <div class="two">
-        <p>Text</p>
-    </div>
-    <div class="three">
-        <p>Text</p>
-    </div>
-    <div class="footer">
-        <p align="right">Group project for NC. March 2019.
-        <p>
-    </div>
-</div>
+			</div>
+		</div>
+		<div class="featured">
+			<form class="pure-form pure-form-stacked" th:action="@{/addcomment}"
+				th:object="${commentForm}" method="POST">
+				<fieldset>
+					<legend>Добавить комментарий</legend>
+
+					<label for="username">Username</label> <input type="text"
+						th:field="*{username}" placeholder="username"> <label
+						for="grade">Оценка</label> <select th:field="*{grade}">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+					</select> <label for="text">Текст комментария</label>
+					<textarea name="text" rows="6" cols="30"></textarea>
+					<button type="submit" class="pure-button">Отправить</button>
+				</fieldset>
+			</form>
+
+		</div>
+		<div class="aside">
+			<img th:src="@{/img/stock_img1.jpg}" />
+		</div>
+		<div class="one">
+			<p>Text</p>
+		</div>
+		<div class="two">
+			<p>Text</p>
+		</div>
+		<div class="three">
+			<p>Text</p>
+		</div>
+		<div class="footer">
+			<p align="right">Group project for NC. March 2019.
+			<p>
+		</div>
+	</div>
 </body>
 </html>

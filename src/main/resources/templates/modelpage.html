@@ -61,14 +61,16 @@
 				</p>
 				<div class="dialogbox" th:each="comment : ${model.getComments()}">
 					<div class="body">
-						<span><b th:utext="${comment.getUsername()}">Username</b></span>
+						<span style="color: gray;"><b th:utext="${comment.getUsername()}">Username</b></span>
 						<div class="message">
 							<span th:utext="${comment.getText()}">...</span>
 						</div>
 						<span style="margin-left: 40px; color: gray; font-size: 13px;"><i>оценка:</i></span>
 						<span class="tip tip-left"></span> <span
+							th:if="${comment.getGrade()}"
 							th:each="number: ${#numbers.sequence(1,comment.getGrade())}"
 							style="color: gray">&#8226 </span>
+							<span style="color: gray" th:utext="(|${comment.getGrade()}|)"></span>
 					</div>
 				</div>
 			</div>
@@ -91,5 +93,8 @@
 			<p>
 		</div>
 	</div>
+	<div class="floating-chat">
+		<iframe src="/chat"  width="300" height="400"  frameborder="no"></iframe>
+		</div>
 </body>
 </html>

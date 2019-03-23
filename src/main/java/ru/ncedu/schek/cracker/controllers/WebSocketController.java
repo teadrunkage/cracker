@@ -5,6 +5,8 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
+
+import ru.ncedu.schek.cracker.bot.SimpleBot;
 import ru.ncedu.schek.cracker.forms.ChatMessage;
 import ru.ncedu.schek.cracker.websocket.ChatEndpoint;
 import ru.ncedu.schek.cracker.websocket.GreetClient;
@@ -20,6 +22,7 @@ import java.net.URISyntaxException;
  */
 @Controller
 public class WebSocketController {
+	
     @MessageMapping("/chat.sendMessage")
     @SendTo("/topic/publicChatRoom")
     public ChatMessage sendMessage(@Payload ChatMessage chatMessage) throws URISyntaxException {
@@ -45,6 +48,18 @@ public class WebSocketController {
 
         return chatMessage;
     }
+    
+    @MessageMapping("/chat.answerByBot")
+    @SendTo("/topic/publicChatRoom")
+    public ChatMessage answerByBot(@Payload ChatMessage chatMessage) throws URISyntaxException {
+    	SimpleBot bot = new SimpleBot();
+    	String text = chatMessage.getContent();
+    	String answer = bot.sayInReturn(text, true);
+    	chatMessage.setContent(answer);
+    	chatMessage.setSender("bot");
+    	return chatMessage;
+    }
+    
     
     private static String getMessage(String message) {
         return Json.createObjectBuilder()
