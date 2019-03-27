@@ -10,6 +10,7 @@ import ru.ncedu.schek.cracker.repository.ModelService.ModelService;
 import ru.ncedu.schek.cracker.repository.PhoneService.PhoneService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @Controller
@@ -27,7 +28,7 @@ public class MainController {
 	}
 
 	@RequestMapping("/chat")
-	public String chat(HttpServletRequest request, org.springframework.ui.Model model) {
+	public String chat(HttpServletRequest request, org.springframework.ui.Model model) throws URISyntaxException {
 		String username = (String) request.getSession().getAttribute("username");
 		if (username == null || username.isEmpty()) {
 			return "redirect:/login";
