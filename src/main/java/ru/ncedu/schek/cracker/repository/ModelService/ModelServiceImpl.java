@@ -31,7 +31,7 @@ public class ModelServiceImpl implements ModelService {
     public void saveAllModels() {
         RestTemplate restTemplate = new RestTemplate();
         Set<String> urlSet = new HashSet<String>();
-
+        
         urlSet.add(URL_MODEL1);
         urlSet.add(URL_MODEL2);
 

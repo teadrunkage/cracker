@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.ncedu.schek.cracker.entities.Comment;
 import ru.ncedu.schek.cracker.entities.Model;
 import ru.ncedu.schek.cracker.forms.CommentForm;
+import ru.ncedu.schek.cracker.forms.SearchForm;
 import ru.ncedu.schek.cracker.repository.CommentRepository;
 import ru.ncedu.schek.cracker.repository.ModelRepository;
 
@@ -30,13 +31,13 @@ public class AddCommentController {
 
 	@RequestMapping(value = { "/addcomment" }, method = RequestMethod.GET)
 	public String addcomment(org.springframework.ui.Model model, //
-							 HttpServletRequest request, //
-							 @RequestParam(name="modelId") Long modelId) {
+			HttpServletRequest request, //
+			@RequestParam(name="modelId") Long modelId) {
+		
+		SearchForm searchForm = new SearchForm();
+		model.addAttribute("searchForm", searchForm);
 		CommentForm commentForm = new CommentForm();
 		mymodel = modelRepository.getOne(modelId);
-		System.out.println("!!!!!!");
-		System.out.println(modelId);
-		System.out.println(mymodel.getModelName());
 		model.addAttribute("commentForm", commentForm);
 
 		referer = request.getHeader("Referer");

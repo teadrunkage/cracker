@@ -21,44 +21,41 @@
 			<img th:src="@{/img/logo.png}" width=400 height=143 align="left" />
 			<div class="header-right">
 				<div class="pure-menu pure-menu-horizontal">
-					<form class="pure-form" th:action="@{/search}"
-						th:object="${searchForm}" method="POST">
+					<form class="pure-form" th:action="@{/search}" th:object="${searchForm}"
+					method="POST">
 						<input class="pure-input-2-3" type="text" th:field="*{text}"
 							placeholder="Начните поиск...">
 						<button type="submit" class="pure-button">Search</button>
 					</form>
 					<a th:href="@{/index}" class="pure-menu-heading pure-menu-link">ГЛАВНАЯ</a>
 					<ul class="pure-menu-list">
-						<li class="pure-menu-item"><a th:href="@{/category}"
-							class="pure-menu-link">Категории</a></li>
-						<li class="pure-menu-item"><a th:href="@{/index}"
-							class="pure-menu-link">Магазин</a></li>
+						<li class="pure-menu-item"><a th:href="@{/category}" class="pure-menu-link">Категории</a></li>
+						<li class="pure-menu-item"><a th:href="@{/index}" class="pure-menu-link">Магазин</a></li>
 					</ul>
-
 				</div>
 
 			</div>
 		</div>
 		<div class="featured">
 			<div>
-				<h2>Магазин</h2>
-				<!--	 <div align="right" ><a th:href="@{/refresh}">Обновить</a></div>  -->
-				<table border="0">
-					<tr>
-						<th>Наименование</th>
-						<th>минимальная цена</th>
-						<th>максимальная цена</th>
-						<th>количество</th>
-					</tr>
-					<tr th:each="model : ${models}">
-						<td th:utext="${model.getModelName()}">...</td>
-						<td th:utext="${model.getPriceMin()}">...</td>
-						<td th:utext="${model.getPriceMax()}">...</td>
-						<td><a th:href="@{/modelpage(modelId=${model.getModelId()})}"
-							class="btn btn-danger" th:text="${model.getNumberOfPhones()}">...</a></td>
-					</tr>
-				</table>
-			</div>
+					<h2>Результаты поиска:</h2>
+					<table th:if="${!searchEmpty}" border="0">
+						<tr>
+							<th>Наименование</th>
+							<th>минимальная цена</th>
+							<th>максимальная цена</th>
+							<th>количество</th>
+						</tr>
+						<tr th:each="model : ${models}">
+							<td th:utext="${model.getModelName()}">...</td>
+							<td th:utext="${model.getPriceMin()}">...</td>
+							<td th:utext="${model.getPriceMax()}">...</td>
+							<td><a th:href="@{/modelpage(modelId=${model.getModelId()})}"
+								class="btn btn-danger" th:text="${model.getNumberOfPhones()}">...</a></td>
+						</tr>
+					</table>
+					<p th:if="${searchEmpty}">Модели не найдены.</p>
+				</div>
 		</div>
 		<div class="aside">
 			<img th:src="@{/img/stock_img1.jpg}" />
@@ -77,8 +74,5 @@
 			<p>
 		</div>
 	</div>
-<div class="floating-chat">
-		<iframe src="/chat"  width="300" height="400"  frameborder="no"></iframe>
-		</div>
 </body>
 </html>

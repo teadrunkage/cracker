@@ -5,12 +5,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.Proxy;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Proxy(lazy =false) 
 @Table(name= "MODEL")
 public class Model {
     @Id
