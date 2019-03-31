@@ -11,6 +11,7 @@ import ru.ncedu.schek.cracker.repository.ModelService.ModelService;
 import ru.ncedu.schek.cracker.repository.PhoneService.PhoneService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @Controller
@@ -40,16 +41,15 @@ public class MainController {
 		return "redirect:/index";
 	}
 
-	@RequestMapping("/chat")
-	public String index(HttpServletRequest request, org.springframework.ui.Model model) {
-		String username = (String) request.getSession().getAttribute("username");
 
+	@RequestMapping("/chat")
+	public String chat(HttpServletRequest request, org.springframework.ui.Model model) throws URISyntaxException {
+		String username = (String) request.getSession().getAttribute("username");
 		if (username == null || username.isEmpty()) {
 			return "redirect:/login";
 		}
 		model.addAttribute("username", username);
-
-		return "chat";
+		return "chat.html";
 	}
 
 	@RequestMapping(path = "/login", method = RequestMethod.GET)

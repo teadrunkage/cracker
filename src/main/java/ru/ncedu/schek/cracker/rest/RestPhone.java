@@ -28,6 +28,8 @@ public class RestPhone {
     PhoneRepository phoneRepository;
     @Autowired
     ModelRepository modelRepository;
+
+    //обработка запросов от стороннего магазина
     //-------------------Delete a Phone--------------------------------------------------------
     @RequestMapping(value = "/deletephone", method = RequestMethod.POST)
     public ResponseEntity<Void> deletePhone(@RequestBody Phone phone, UriComponentsBuilder ucBuilder){
