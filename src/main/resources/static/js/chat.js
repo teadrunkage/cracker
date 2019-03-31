@@ -12,7 +12,7 @@ var username = null;
 
 function connect() {
     username = document.querySelector('#username').innerText.trim();
-    var socket = new SockJS('/greeting');
+    var socket= new SockJS('http://localhost:5030/cracker');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, onConnected, onError);
 }
