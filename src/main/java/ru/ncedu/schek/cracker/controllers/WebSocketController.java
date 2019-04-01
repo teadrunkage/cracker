@@ -7,9 +7,9 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
-
-import ru.ncedu.schek.cracker.bot.SimpleBot;
 import ru.ncedu.schek.cracker.forms.ChatMessage;
+import ru.ncedu.schek.cracker.websocket.GreetClient;
+import ru.ncedu.schek.cracker.websocket.MessageEncoder;
 
 import javax.websocket.EncodeException;
 import java.net.URISyntaxException;
@@ -19,41 +19,28 @@ import java.net.URISyntaxException;
  */
 @Controller
 public class WebSocketController {
-
     @Autowired
     private SimpMessageSendingOperations messagingTemplate;
 
+    private GreetClient client;
+
     @MessageMapping("/chat.sendMessage")
     @SendTo("/topic/publicChatRoom")
-    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) throws URISyntaxException, EncodeException {
+    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) throws URISyntaxException {
+        MessageEncoder messageEncoder= new MessageEncoder();
+        try {
+            client.sendMessage(messageEncoder.encode(chatMessage));
+        } catch (EncodeException e) {
+           e.printStackTrace();
+        }
         return chatMessage;
     }
-
-    
-    @MessageMapping("/chat.answerByBot")
-    @SendTo("/topic/publicChatRoom")
-    public ChatMessage answerByBot(@Payload ChatMessage chatMessage) throws URISyntaxException {
-    	SimpleBot bot = new SimpleBot();
-    	String text = chatMessage.getContent();
-    	String answer = bot.sayInReturn(text, true);
-    	chatMessage.setContent(answer);
-    	chatMessage.setSender("bot");
-    	return chatMessage;
-    }
-    
-    
-    private static String getMessage(String message) {
-        return Json.createObjectBuilder()
-                .add("user", "bot")
-                .add("message", message)
-                .build()
-                .toString();
-    }
-  
     //подписка на тему
     @MessageMapping("/chat.addUser")
     @SendTo("/topic/publicChatRoom")
     public ChatMessage addUser(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
+        client= new GreetClient();
+        client.startConnection("127.0.0.1", 5555);
         headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
         return chatMessage;
     }
