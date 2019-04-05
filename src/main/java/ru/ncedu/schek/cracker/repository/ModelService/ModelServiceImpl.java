@@ -11,6 +11,14 @@ import ru.ncedu.schek.cracker.repository.PhoneRepository;
 
 import java.util.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+
 /**
  * Created by Admin on 24.02.2019.
  */
@@ -20,6 +28,12 @@ public class ModelServiceImpl implements ModelService {
     private ModelRepository modelRepository;
     @Autowired
     private PhoneRepository phoneRepository;
+
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
+    @Autowired
+    private EntityManager entityManager;
+    private int pageSize = 5;
 
     //изменил порты
     static final String URL_MODEL1 = "http://localhost:8081/models";//Daria
@@ -71,12 +85,64 @@ public class ModelServiceImpl implements ModelService {
         model.setPriceMin(Collections.min(list));
     }
 
+    
     @Override
     public List<Model> listAllModels() {
         return modelRepository.findAll();
     }
+    
+    
+    
+    @Override
+    public Long getNumberOfPages() {
+    	CriteriaBuilder builder = entityManagerFactory.getCriteriaBuilder();
+    	CriteriaQuery<Long> countQuery = builder.createQuery(Long.class);
+    	countQuery.select(builder.count(countQuery.from(Model.class)));
+    	Long count = entityManager.createQuery(countQuery).getSingleResult();
+        return count/pageSize + 1;
+    }
 
     @Override
+    public List<Model> getPageList(Long page) {
+    	CriteriaBuilder builder = entityManagerFactory.getCriteriaBuilder();
+    	CriteriaQuery<Model> criteriaQuery = builder.createQuery(Model.class);
+    	Root<Model> from = criteriaQuery.from(Model.class);
+    	CriteriaQuery<Model> select = criteriaQuery.select(from); 
+    	TypedQuery<Model> typedQuery = entityManager.createQuery(select);
+    			typedQuery.setFirstResult((int) ((page-1)*pageSize));
+    			typedQuery.setMaxResults((int) (pageSize));
+    			List<Model> pageList = typedQuery.getResultList();
+    	
+        return pageList;
+    }
+    
+
+    @Override
+	public List<Model> searchFromString(String text, Long page) {
+    	TypedQuery<Model> typedQuery = entityManager.createQuery(
+    			"Select m from Model m where "
+    			+ "lower(modelName) LIKE "
+    			+ "'%"+text.toLowerCase()+"%'", Model.class);
+    	typedQuery.setFirstResult((int) ((page-1)*pageSize));
+		typedQuery.setMaxResults((int) (pageSize));
+    	List<Model> searchResult = typedQuery.getResultList();
+    	return searchResult;
+	}
+    
+    
+
+	@Override
+	public Long getNumberOfSearchPages(String text) {
+		CriteriaBuilder builder = entityManagerFactory.getCriteriaBuilder();
+		TypedQuery<Long> typedQuery = entityManager.createQuery(
+    			"Select count(m) from Model m where "
+    			+ "lower(modelName) LIKE "
+    			+ "'%"+text.toLowerCase()+"%'", Long.class);
+		Long numberOfSearchPages = typedQuery.getResultList().get(0)/pageSize -1;
+        return numberOfSearchPages;
+	}
+
+	@Override
     public Model findById(long id) {
         for (Model model : modelRepository.findAll()) {
             if (model.getModelId() == id) {
@@ -95,7 +161,7 @@ public class ModelServiceImpl implements ModelService {
     public boolean isModelExist(Model model) {
         return findByName(model.getModelName()) != null;
     }
-
+    
     @Override
     public Model findByName(String name) {
         for (Model model : modelRepository.findAll()) {

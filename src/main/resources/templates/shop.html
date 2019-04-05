@@ -31,7 +31,7 @@
 					<ul class="pure-menu-list">
 						<li class="pure-menu-item"><a th:href="@{/category}"
 							class="pure-menu-link">Категории</a></li>
-						<li class="pure-menu-item"><a th:href="@{/index}"
+						<li class="pure-menu-item"><a th:href="@{/shop}"
 							class="pure-menu-link">Магазин</a></li>
 					</ul>
 
@@ -41,52 +41,58 @@
 		</div>
 		<div class="featured">
 			<div>
-				<h2>Магазин</h2>
-				<!--	 <div align="right" ><a th:href="@{/refresh}">Обновить</a></div>  -->
-				<table border="0">
+				<h2>Магазин - Товары - Телефоны</h2>
+				<table border="0" align="center">
 					<tr>
+						<th></th>
 						<th>Наименование</th>
-						<th>минимальная цена</th>
-						<th>максимальная цена</th>
-						<th>количество</th>
+						<th>Цена</th>
+						<th>Количество</th>
 					</tr>
 					<tr th:each="model : ${models}">
+						<td><img width=70 height=70
+							th:src="${model.getPhones().iterator().next().getPicturelink()}"
+							alt="No image provided" /></td>
 						<td th:utext="${model.getModelName()}">...</td>
-						<td th:utext="${model.getPriceMin()}">...</td>
-						<td th:utext="${model.getPriceMax()}">...</td>
+						<td th:utext="${model.getPriceMin()}+|-|+${model.getPriceMax()}">...</td>
 						<td><a th:href="@{/modelpage(modelId=${model.getModelId()})}"
 							class="btn btn-danger" th:text="${model.getNumberOfPhones()}">...</a></td>
 					</tr>
 				</table>
+				<div align="center">
+					<a th:href="@{/shop(page=${curPage}-1)}">предыдущая страница</a> <span>...
+						cтраница</span> <span th:utext="${curPage}">...</span> <span>из</span> <span
+						th:utext="${numOfPages}">...</span> <span>...</span> <a
+						th:href="@{/shop(page=${curPage}+1)}">следующая страница</a>
+				</div>
 			</div>
 		</div>
 		<div class="aside">
 			<img th:src="@{/img/stock_img1.jpg}" />
 		</div>
-
-		<div class="one">
-			<iframe width="700" height="315" src="https://www.youtube.com/embed/koqaUFPfTGE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+		<div class="youtube">
+			<iframe width=100% height=400px
+				src="https://www.youtube.com/embed/koqaUFPfTGE" frameborder="0"
+				allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+				allowfullscreen></iframe>
 		</div>
-		<!--
-		<div class="two">
-			<p>Text</p>
+		<div class="map">
+			<iframe width=100% height=400px
+				src="https://www.google.com/maps/d/embed?mid=1v1XTOP10Z6Gdiqznml9355TcewfC7bzd"></iframe>
 		</div>
-		-->
-		<!--
-		<div class="three">
-			<p>Text</p>
-		</div>
-		-->
-
-
 		<div class="footer">
-			<iframe src="https://www.google.com/maps/d/embed?mid=1v1XTOP10Z6Gdiqznml9355TcewfC7bzd" width="1020" height="300"></iframe>
 			<p align="right">Group project for NC. March 2019.
 			<p>
 		</div>
 	</div>
-<div class="floating-chat">
-		<iframe src="/chat"  width="300" height="400"  frameborder="no"></iframe>
+
+	<div class="floating-chat">
+		<input type="image" th:src="@{/img/chat.png}" id="mybutton"
+			onclick="myFunction()" width="35" height="35" align="right">
+		<div id="chatframe" style="display: none">
+			<iframe src="/chat" width="300" height="400" frameborder="no"></iframe>
 		</div>
+		<script th:src="@{/js/myjs.js}"></script>
+	</div>
 </body>
 </html>

@@ -10,11 +10,22 @@ import java.util.List;
  */
 public interface ModelService {
     List<Model> listAllModels();
+    
+    public Long getNumberOfPages();
+    public List<Model> getPageList(Long page);
+    
+    /** Search from substring
+     * 
+     * Requires page number
+     * 
+     * @return List of Models where Model.getName.contains(text)
+     */
+    public List<Model> searchFromString(String text, Long page);
+    public Long getNumberOfSearchPages(String text);
 
     public void comparisonOfModelsPrice(Model model);
 
     void saveAllModels();
-
 
     Model findById(long id);
 
