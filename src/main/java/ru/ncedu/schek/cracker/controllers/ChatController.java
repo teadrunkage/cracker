@@ -17,23 +17,23 @@ public class ChatController {
     public String chat(HttpServletRequest request, org.springframework.ui.Model model) throws URISyntaxException {
         String username = (String) request.getSession().getAttribute("username");
         if (username == null || username.isEmpty()) {
-            return "redirect:/login";
+            return "redirect:/loginchat";
         }
         model.addAttribute("username", username);
         return "chat.html";
     }
 
-    @RequestMapping(path = "/login", method = RequestMethod.GET)
+    @RequestMapping(path = "/loginchat", method = RequestMethod.GET)
     public String showLoginPage() {
         return "login";
     }
 
-    @RequestMapping(path = "/login", method = RequestMethod.POST)
+    @RequestMapping(path = "/loginchat", method = RequestMethod.POST)
     public String doLogin(HttpServletRequest request, @RequestParam(defaultValue = "") String username) {
         username = username.trim();
 
         if (username.isEmpty()) {
-            return "login";
+            return "loginchat";
         }
         request.getSession().setAttribute("username", username);
 
@@ -44,6 +44,6 @@ public class ChatController {
     public String logout(HttpServletRequest request) {
         request.getSession(true).invalidate();
 
-        return "redirect:/login";
+        return "redirect:/loginchat";
     }
 }

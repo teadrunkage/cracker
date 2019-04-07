@@ -9,10 +9,9 @@ var connectingElement = document.querySelector('#connecting');
 var stompClient = null;
 var username = null;
 
-
 function connect() {
     username = document.querySelector('#username').innerText.trim();
-    var socket= new SockJS('http://localhost:5030/cracker');
+    var socket= new SockJS('http://localhost:8080/cracker');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, onConnected, onError);
 }
@@ -60,9 +59,6 @@ function sendMessage(event) {
     event.preventDefault();
     
 }
-
-
-
 
 function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
