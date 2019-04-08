@@ -1,6 +1,7 @@
 package ru.ncedu.schek.cracker.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,8 +12,11 @@ import java.net.URISyntaxException;
 /**
  * Created by Admin on 02.04.2019.
  */
+//@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:8080")
 @Controller
 public class ChatController {
+
     @RequestMapping("/chat")
     public String chat(HttpServletRequest request, org.springframework.ui.Model model) throws URISyntaxException {
         String username = (String) request.getSession().getAttribute("username");
@@ -39,7 +43,6 @@ public class ChatController {
 
         return "redirect:/chat";
     }
-
     @RequestMapping(path = "/logout")
     public String logout(HttpServletRequest request) {
         request.getSession(true).invalidate();
