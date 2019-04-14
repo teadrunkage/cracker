@@ -1,8 +1,6 @@
-<!DOCTYPE html>
+
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta name="Access-Control-Allow-Origin" content="*" />
-    <meta name="Access-Control-Allow-Headers" content="*" />
     <title>Spring Boot WebSocket</title>
     <link rel="stylesheet"
           href="https://unpkg.com/purecss@1.0.0/build/pure-min.css"
@@ -40,6 +38,6 @@
     </form>
 </div>
 
-<script crossorigin = "use-credentials"  th:src="@{/js/chat.js}"></script>
+<script th:src="@{/js/chat.js}"></script>
 </body>
 </html>
