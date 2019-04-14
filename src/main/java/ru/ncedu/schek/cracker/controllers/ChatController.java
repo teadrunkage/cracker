@@ -13,7 +13,6 @@ import java.net.URISyntaxException;
  */
 @Controller
 public class ChatController {
-
     @RequestMapping("/chat")
     public String chat(HttpServletRequest request, org.springframework.ui.Model model) throws URISyntaxException {
         String username = (String) request.getSession().getAttribute("username");

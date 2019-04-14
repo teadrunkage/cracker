@@ -1,12 +1,10 @@
 package ru.ncedu.schek.cracker.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
-import ru.ncedu.schek.cracker.init.HttpHandshakeInterceptor;
 
 /**
  * Created by Admin on 13.03.2019.
@@ -14,12 +12,11 @@ import ru.ncedu.schek.cracker.init.HttpHandshakeInterceptor;
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
-    @Autowired
-    private HttpHandshakeInterceptor handshakeInterceptor;
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/cracker").setAllowedOrigins("*").withSockJS();//.setInterceptors(handshakeInterceptor);//setAllowedOrigins("*").
+        registry.addEndpoint("/cracker").setAllowedOrigins("*").withSockJS();
+        registry.addEndpoint("/karasy").setAllowedOrigins("*").withSockJS();
     }
 
     @Override

@@ -34,38 +34,36 @@
 						<li class="pure-menu-item"><a th:href="@{/shop}"
 							class="pure-menu-link">Магазин</a></li>
 					</ul>
+
 				</div>
 
 			</div>
 		</div>
 		<div class="featured">
-			<div class="featured">
-				<div>
-					<h2>Результаты поиска</h2>
-					<table border="0" align="center">
-						<tr>
-							<th></th>
-							<th>Наименование</th>
-							<th>Цена</th>
-							<th>Количество</th>
-						</tr>
-						<tr th:each="model : ${models}">
-							<td><img width=70 height=70
-								th:src="${model.getPhones().iterator().next().getPicturelink()}"
-								alt="No image provided" /></td>
-							<td th:utext="${model.getModelName()}">...</td>
-							<td th:utext="${model.getPriceMin()}+|-|+${model.getPriceMax()}">...</td>
-							<td><a
-								th:href="@{/modelpage(modelId=${model.getModelId()})}"
-								class="btn btn-danger" th:text="${model.getNumberOfPhones()}">...</a></td>
-						</tr>
-					</table>
-					<div align="center">
-						<a th:href="@{/shop(page=${curPage}-1)}">предыдущая страница</a> <span>...
-							cтраница</span> <span th:utext="${curPage}">...</span> <span>из</span> <span
-							th:utext="${numOfPages}">...</span> <span>...</span> <a
-							th:href="@{/shop(page=${curPage}+1)}">следующая страница</a>
-					</div>
+			<div>
+				<h2>Магазин - Товары - Телефоны</h2>
+				<table border="0" align="center">
+					<tr>
+						<th></th>
+						<th>Наименование</th>
+						<th>Цена</th>
+						<th>Количество</th>
+					</tr>
+					<tr th:each="model : ${models}">
+						<td><img width=70 height=70
+							th:src="${model.getPhones().iterator().next().getPicturelink()}"
+							alt="No image provided" /></td>
+						<td th:utext="${model.getModelName()}">...</td>
+						<td th:utext="${model.getPriceMin()}+|-|+${model.getPriceMax()}">...</td>
+						<td><a th:href="@{/modelpage(modelId=${model.getModelId()})}"
+							class="btn btn-danger" th:text="${model.getNumberOfPhones()}">...</a></td>
+					</tr>
+				</table>
+				<div align="center">
+					<a th:href="@{/shop(page=${curPage}-1)}">предыдущая страница</a> <span>...
+						cтраница</span> <span th:utext="${curPage}">...</span> <span>из</span> <span
+						th:utext="${numOfPages}">...</span> <span>...</span> <a
+						th:href="@{/shop(page=${curPage}+1)}">следующая страница</a>
 				</div>
 			</div>
 		</div>
@@ -87,6 +85,7 @@
 			<p>
 		</div>
 	</div>
+
 	<div class="floating-chat">
 		<input type="image" th:src="@{/img/chat.png}" id="mybutton"
 			onclick="myFunction()" width="35" height="35" align="right">
