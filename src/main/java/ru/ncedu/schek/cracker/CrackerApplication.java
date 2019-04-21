@@ -9,5 +9,4 @@ public class CrackerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CrackerApplication.class, args);
 	}
-
 }
