@@ -9,14 +9,13 @@ import ru.ncedu.schek.cracker.entities.Phone;
 import ru.ncedu.schek.cracker.repository.ModelRepository;
 import ru.ncedu.schek.cracker.repository.PhoneRepository;
 
-import java.util.*;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.*;
 
 
 /**

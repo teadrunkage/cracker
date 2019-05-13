@@ -9,6 +9,13 @@ public class ChatMessage {
     private String sender;
     private String to;
 
+    public ChatMessage(String sender, String content) {
+        this.sender= sender;
+        this.content= content;
+    }
+
+    public ChatMessage() {
+    }
 
     public enum MessageType {
         CHAT, JOIN, LEAVE
