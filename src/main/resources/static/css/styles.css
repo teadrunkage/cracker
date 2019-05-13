@@ -66,6 +66,19 @@ a:hover {
 
 .footer {
 	grid-column: 1/4;
+	font-size: 85%;
+}
+
+.footer-right {
+	width: 40%;
+	float: right;
+	text-align: center;
+}
+
+.footer-left {
+	width: 40%;
+	float: left;
+	text-align: center;
 }
 
 .floating-chat {

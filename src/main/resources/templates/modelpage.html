@@ -21,16 +21,18 @@
 			<img th:src="@{/img/logo.png}" width=400 height=143 align="left" />
 			<div class="header-right">
 				<div class="pure-menu pure-menu-horizontal">
-					<form class="pure-form" th:action="@{/search}" th:object="${searchForm}"
-					method="POST">
+					<form class="pure-form" th:action="@{/search}"
+						th:object="${searchForm}" method="POST">
 						<input class="pure-input-2-3" type="text" th:field="*{text}"
 							placeholder="Начните поиск...">
 						<button type="submit" class="pure-button">Search</button>
 					</form>
 					<a th:href="@{/index}" class="pure-menu-heading pure-menu-link">ГЛАВНАЯ</a>
 					<ul class="pure-menu-list">
-						<li class="pure-menu-item"><a th:href="@{/category}" class="pure-menu-link">Категории</a></li>
-						<li class="pure-menu-item"><a th:href="@{/shop}" class="pure-menu-link">Магазин</a></li>
+						<li class="pure-menu-item"><a th:href="@{/category}"
+							class="pure-menu-link">Категории</a></li>
+						<li class="pure-menu-item"><a th:href="@{/shop}"
+							class="pure-menu-link">Магазин</a></li>
 					</ul>
 
 				</div>
@@ -41,6 +43,16 @@
 			<div>
 				<h2 th:utext="${model.getModelName()}">!!!</h2>
 				<h4>Описание:</h4>
+				<p>Со́товый телефо́н — мобильный телефон, предназначенный для
+					работы в сетях сотовой связи; использует приёмопередатчик
+					радиодиапазона и традиционную телефонную коммутацию для
+					осуществления телефонной связи на территории зоны покрытия сотовой
+					сети. В настоящее время сотовая связь — самая распространённая из
+					всех видов мобильной связи, поэтому обычно мобильным телефоном
+					называют именно сотовый телефон, хотя мобильными телефонами, помимо
+					сотовых, являются также спутниковые телефоны, радиотелефоны и
+					аппараты магистральной связи.</p>
+				<p>источник: Википедия</p>
 				<h4>Список доступных телефонов:</h4>
 				<table border="0">
 					<tr>
@@ -57,11 +69,13 @@
 				</table>
 				<h4>Комментарии:</h4>
 				<p align="right">
-					<a th:href="@{addcomment(modelId=${model.getModelId()})}" class="btn btn-danger"  >Добавить комментарий</a>
+					<a th:href="@{addcomment(modelId=${model.getModelId()})}"
+						class="btn btn-danger">Добавить комментарий</a>
 				</p>
 				<div class="dialogbox" th:each="comment : ${model.getComments()}">
 					<div class="body">
-						<span style="color: gray;"><b th:utext="${comment.getUsername()}">Username</b></span>
+						<span style="color: gray;"><b
+							th:utext="${comment.getUsername()}">Username</b></span>
 						<div class="message">
 							<span th:utext="${comment.getText()}">...</span>
 						</div>
@@ -69,15 +83,16 @@
 						<span class="tip tip-left"></span> <span
 							th:if="${comment.getGrade()}"
 							th:each="number: ${#numbers.sequence(1,comment.getGrade())}"
-							style="color: gray">&#8226 </span>
-							<span style="color: gray" th:utext="(|${comment.getGrade()}|)"></span>
+							style="color: gray">&#8226 </span> <span style="color: gray"
+							th:utext="(|${comment.getGrade()}|)"></span>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="aside">
-			<img width=350 height=350 th:src="${model.getPhones().iterator().next().getPicturelink()}" />
-		
+			<img width=350 height=350
+				th:src="${model.getPhones().iterator().next().getPicturelink()}" />
+
 		</div>
 		<div class="youtube">
 			<iframe width=100% height=400px
@@ -90,13 +105,21 @@
 				src="https://www.google.com/maps/d/embed?mid=1v1XTOP10Z6Gdiqznml9355TcewfC7bzd"></iframe>
 		</div>
 		<div class="footer">
-			<p align="right">Group project for NC. March 2019.
-			<p>
+			<div class="footer-left">
+				<hr>
+				<p>Daria Schekotihina https://github.com/teadrunkage</p>
+				<p>Maxim Krasikov https://github.com/MaximKrasikov</p>
+			</div>
+			<div class="footer-right">
+				<hr>
+				<p>Group project for NC Learning Center. March 2019.</p>
+			</div>
 		</div>
 	</div>
 	<div class="floating-chat">
-	 <input type="image" th:src="@{/img/chat.png}" id="mybutton" onclick="myFunction()" width="35" height="35" align="right">
-		<div id="chatframe" style="display:none">
+		<input type="image" th:src="@{/img/chat.png}" id="mybutton"
+			onclick="myFunction()" width="35" height="35" align="right">
+		<div id="chatframe" style="display: none">
 			<iframe src="/chat" width="300" height="400" frameborder="no"></iframe>
 		</div>
 		<script th:src="@{/js/myjs.js}"></script>

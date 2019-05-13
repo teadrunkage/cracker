@@ -42,10 +42,12 @@
 		<div class="featured">
 			<div>
 				<h2>Добро пожаловать!</h2>
-				<p>Вы находитесь на сайте маркетплейса "Cracker shop". Здесь Вы можете найти товары от наших партнеров.</p>
-				<p>Если вам нужна помощь, воспользуйтесь чатом: наш бот поможет подобрать нужную модель и, при необходимости, свяжет с консультантом.</p>
-				<br>
-				<a th:href="@{/shop}">Перейти в магазин.</a>
+				<p>Вы находитесь на сайте маркетплейса "Cracker shop". Здесь Вы
+					можете найти товары от наших партнеров.</p>
+				<p>Если вам нужна помощь, воспользуйтесь чатом: наш бот поможет
+					подобрать нужную модель и, при необходимости, свяжет с
+					консультантом.</p>
+				<br> <a th:href="@{/shop}">Перейти в магазин.</a>
 			</div>
 		</div>
 		<div class="aside">
@@ -62,14 +64,22 @@
 				src="https://www.google.com/maps/d/embed?mid=1v1XTOP10Z6Gdiqznml9355TcewfC7bzd"></iframe>
 		</div>
 		<div class="footer">
-			<p align="right">Group project for NC. March 2019.
-			<p>
+			<div class="footer-left">
+				<hr>
+				<p>Daria Schekotihina https://github.com/teadrunkage</p>
+				<p>Maxim Krasikov https://github.com/MaximKrasikov</p>
+			</div>
+			<div class="footer-right">
+				<hr>
+				<p>Group project for NC Learning Center. March 2019.</p>
+			</div>
 		</div>
 	</div>
-	
+
 	<div class="floating-chat">
-	 <input type="image" th:src="@{/img/chat.png}" id="mybutton" onclick="myFunction()" width="35" height="35" align="right">
-		<div id="chatframe" style="display:none">
+		<input type="image" th:src="@{/img/chat.png}" id="mybutton"
+			onclick="myFunction()" width="35" height="35" align="right">
+		<div id="chatframe" style="display: none">
 			<iframe src="/chat" width="300" height="400" frameborder="no"></iframe>
 		</div>
 		<script th:src="@{/js/myjs.js}"></script>

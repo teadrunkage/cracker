@@ -1,10 +1,17 @@
 version: '2'
 services:
-  shop:
-    image: shop
-    ports:
-     - "8080:8080"
   cracker:
     image: cracker
     ports:
      - "5030:5030"
+    depends_on:
+      - shop
+  shop:
+    image: shop
+    ports:
+     - "8081:8081"
+  start_dependencies:
+    image: dadarek/wait-for-dependencies
+    depends_on:
+      - shop
+    command: shop:8081

@@ -133,7 +133,6 @@ public class ModelServiceImpl implements ModelService {
 
 	@Override
 	public Long getNumberOfSearchPages(String text) {
-		CriteriaBuilder builder = entityManagerFactory.getCriteriaBuilder();
 		TypedQuery<Long> typedQuery = entityManager.createQuery(
     			"Select count(m) from Model m where "
     			+ "lower(modelName) LIKE "

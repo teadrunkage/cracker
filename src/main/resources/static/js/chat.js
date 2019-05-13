@@ -84,10 +84,21 @@ function onMessageReceived(payload) {
         usernameElement.appendChild(usernameText);
         messageElement.appendChild(usernameElement);
     }
-
-    var textElement = document.createElement('span');
-    var messageText = document.createTextNode(message.content);
-    textElement.appendChild(messageText);
+    
+    
+    if (message.content.startsWith("http") ) {
+    	 var textElement = document.createElement('a');
+    	 var messageText = document.createTextNode("Вот Ваш запрос");
+    	 textElement.appendChild(messageText);
+    	 textElement.title = "Вот Ваш запрос";
+    	 textElement.href = message.content;
+    	 textElement.target = "_blank";
+    	 
+    } else {
+	    var textElement = document.createElement('span');
+	    var messageText = document.createTextNode(message.content);
+	    textElement.appendChild(messageText);
+    }
 
     messageElement.appendChild(textElement);
 

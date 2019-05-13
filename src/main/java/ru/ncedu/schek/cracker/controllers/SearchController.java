@@ -61,11 +61,12 @@ public class SearchController {
 		} else {
 			model.addAttribute("searchEmpty", false);
 			model.addAttribute("models", searchModels);
-		}
 			if (page == 0) {page = numOfPages;}
 			if (page == numOfPages+1) {page = (long) 1;}
 		model.addAttribute("curPage", page);
 		model.addAttribute("numOfPages", numOfPages);
+		}
+			
 		
 		return "search";
 	}

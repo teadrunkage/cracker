@@ -36,8 +36,6 @@ public class Model {
     @Column(name = "PRICE_MAX", nullable = false)
     private long priceMax;
     
-    @Column(name = "DESCRIPTION", nullable = true)
-    private String description;
     
 
     public Model(String modelName,long priceMin,long priceMax) {
@@ -105,4 +103,6 @@ public class Model {
     public void addComment(Comment comment) {
     	this.comments.add(comment);
     }
+    
+    
 }

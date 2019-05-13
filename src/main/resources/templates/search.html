@@ -42,7 +42,8 @@
 			<div class="featured">
 				<div>
 					<h2>Результаты поиска</h2>
-					<table border="0" align="center">
+					<p th:if="${searchEmpty}"> Модели не найдены. </p>
+					<table th:if="${!searchEmpty}"  border="0" align="center">
 						<tr>
 							<th></th>
 							<th>Наименование</th>
@@ -60,7 +61,7 @@
 								class="btn btn-danger" th:text="${model.getNumberOfPhones()}">...</a></td>
 						</tr>
 					</table>
-					<div align="center">
+					<div th:if="${!searchEmpty}" align="center">
 						<a th:href="@{/shop(page=${curPage}-1)}">предыдущая страница</a> <span>...
 							cтраница</span> <span th:utext="${curPage}">...</span> <span>из</span> <span
 							th:utext="${numOfPages}">...</span> <span>...</span> <a
@@ -83,8 +84,15 @@
 				src="https://www.google.com/maps/d/embed?mid=1v1XTOP10Z6Gdiqznml9355TcewfC7bzd"></iframe>
 		</div>
 		<div class="footer">
-			<p align="right">Group project for NC. March 2019.
-			<p>
+			<div class="footer-left">
+				<hr>
+				<p>Daria Schekotihina https://github.com/teadrunkage</p>
+				<p>Maxim Krasikov https://github.com/MaximKrasikov</p>
+			</div>
+			<div class="footer-right">
+				<hr>
+				<p>Group project for NC Learning Center. March 2019.</p>
+			</div>
 		</div>
 	</div>
 	<div class="floating-chat">
